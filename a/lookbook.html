@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lookbook — Humble & Blessed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/logo-circle.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="lookbook">
+
+<section class="page-head"><div class="wrap">
+  <h1>Worn in New York</h1>
+  <p>Drop one, photographed where it gets worn. Autumn 2026.</p>
+</div></section>
+
+<section class="wrap" style="padding-bottom:12vh">
+  <div class="looks big" id="looks"></div>
+</section>
+
+<script src="../shared/products.js"></script>
+<script src="site.js"></script>
+<script>
+(() => {
+const { LOOKS } = Object.assign({}, window.HB_DATA, window.HB);
+document.getElementById('looks').innerHTML = LOOKS.map(l => `<figure class="look ${l.eng?'eng':''}"><img src="${l.img}" alt="" loading="lazy"><figcaption>${l.cap}</figcaption></figure>`).join('');
+})();
+</script>
+</body>
+</html>

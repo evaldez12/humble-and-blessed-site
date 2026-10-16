@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Humble & Blessed — New York clothing, est. 2020</title>
+<meta name="description" content="Humble & Blessed is a New York clothing label. Mesh shorts, tees and hoodies in small runs. Always be humble to stay blessed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/logo-circle.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<div class="veil" id="veil" aria-hidden="true"><span>&amp;</span></div>
+
+<section class="hero loading" id="hero">
+  <div class="hero-light"></div>
+  <div class="corner tl">Drop one is live<br><span class="muted">New York, est. 2020</span></div>
+  <div class="corner tr">Mesh shorts, tees, hoodies<br><span class="muted">Small runs. No reprints.</span></div>
+  <div class="wordmark" aria-hidden="true">Humble<span class="amp">&amp;</span>Blessed</div>
+  <div class="floor"></div>
+  <div class="statue"><img src="../assets/cherub-marble.png" alt="White marble praying cherub, the Humble & Blessed emblem"><div class="sweep"></div></div>
+  <div class="corner bl">Always be humble to stay blessed.<br><a href="shop.html" style="border-bottom:1px solid #000">Shop the drop</a></div>
+  <div class="corner br"><span class="muted">Scroll</span></div>
+</section>
+
+<div class="strip" aria-hidden="true"><div><span>Always be humble to stay blessed</span><span class="g">&amp;</span><span>New York City</span><span class="g">&amp;</span><span>Drop one is live</span><span class="g">&amp;</span><span>Always be humble to stay blessed</span><span class="g">&amp;</span><span>New York City</span><span class="g">&amp;</span><span>Drop one is live</span><span class="g">&amp;</span><span>Always be humble to stay blessed</span><span class="g">&amp;</span><span>New York City</span><span class="g">&amp;</span><span>Drop one is live</span><span class="g">&amp;</span><span>Always be humble to stay blessed</span><span class="g">&amp;</span><span>New York City</span><span class="g">&amp;</span><span>Drop one is live</span><span class="g">&amp;</span></div></div>
+
+<section class="section"><div class="wrap">
+  <div class="section-head"><h2>Drop one</h2><a href="shop.html">See everything</a></div>
+  <div class="grid" id="drop"></div>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap">
+  <div class="section-head"><h2>Worn in New York</h2><a href="lookbook.html">Lookbook</a></div>
+  <div class="looks" id="looks"></div>
+</div></section>
+
+<section class="cupid"><div class="wrap">
+  <figure class="story-art" id="art"><img src="../assets/cupid-engraving-ink.png" alt="Humble & Blessed cupid engraving"></figure>
+  <p>Humble &amp; Blessed, New York. Small runs, heavy fabric, no reprints. <a href="about.html">Read the story</a></p>
+</div></section>
+
+<section class="drop2"><div class="wrap" style="display:contents">
+  <div style="padding:0 32px"><h2>Drop two</h2><p class="serif" style="font-size:22px;margin-top:14px;max-width:34ch">Winter weights. Hoodies, crewnecks and a heavier short. Sign up and you get first pick, twenty-four hours before anyone else.</p>
+    <form onsubmit="event.preventDefault();this.outerHTML='<p class=serif style=font-size:22px;margin-top:28px>You are on the list.</p>'"><input type="email" required placeholder="Email address" aria-label="Email address"><button>Get first pick</button></form></div>
+  <div style="padding:0 32px"><div class="count" id="count"></div></div>
+</div></section>
+
+<script src="../shared/products.js"></script>
+<script src="site.js"></script>
+<script>
+(() => {
+const { LOOKS, PRODUCTS, cards, countdown, hero } = Object.assign({}, window.HB_DATA, window.HB);
+hero();
+/* the wordmark rises letter by letter */
+const wm = document.querySelector('.wordmark');
+wm.innerHTML = [...wm.textContent].map((ch, i) => `<i style="animation-delay:${.35 + i*.045}s"${ch==='&'?' class="amp"':''}>${ch}</i>`).join('');
+/* first visit in a session: a short veil with the gold ampersand */
+const veil = document.getElementById('veil');
+if (sessionStorage.getItem('hb-veil')) veil.remove(); else { sessionStorage.setItem('hb-veil','1'); setTimeout(() => veil.classList.add('off'), 900); setTimeout(() => veil.remove(), 1700); }
+/* mouse parallax: the wordmark and the statue sit at different depths */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const h = document.getElementById('hero'); let tx = 0, ty = 0, cx = 0, cy = 0;
+  addEventListener('pointermove', e => { tx = (e.clientX/innerWidth - .5)*2; ty = (e.clientY/innerHeight - .5)*2; }, { passive: true });
+  (function tick(){ cx += (tx-cx)*.06; cy += (ty-cy)*.06; h.style.setProperty('--fx', cx.toFixed(3)); h.style.setProperty('--fy', cy.toFixed(3)); document.documentElement.style.setProperty('--mx', cx.toFixed(3)); document.documentElement.style.setProperty('--my', cy.toFixed(3)); requestAnimationFrame(tick); })();
+}
+cards(document.getElementById('drop'), PRODUCTS);
+document.getElementById('looks').innerHTML = LOOKS.slice(0,3).map(l => `<figure class="look"><img src="${l.img}" alt="" loading="lazy"><figcaption>${l.cap}</figcaption></figure>`).join('');
+countdown(document.getElementById('count'), new Date('2026-11-15T17:00:00-05:00').getTime());
+/* the engraving inks itself in as it enters the screen, then follows the pointer a little */
+const art = document.getElementById('art');
+function inkReveal(){ const r = art.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight * .8))); art.style.setProperty('--reveal', (p * 100) + '%'); }
+addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
+})();
+</script>
+</body>
+</html>

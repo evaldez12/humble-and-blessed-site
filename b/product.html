@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product — Humble & Blessed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/logo-circle.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="shop">
+
+<section class="wrap pdp" id="pdp"></section>
+
+<section class="section"><div class="wrap">
+  <div class="section-head"><h2>Also in drop one</h2><a href="shop.html">See everything</a></div>
+  <div class="grid" id="more"></div>
+</div></section>
+
+<script src="../shared/products.js"></script>
+<script src="site.js"></script>
+<script>
+(() => {
+const { PRODUCTS, SIZES, addToCart, byId, cards, money } = Object.assign({}, window.HB_DATA, window.HB);
+const id = new URLSearchParams(location.search).get('id') || 'shorts';
+const p = byId(id) || PRODUCTS[0];
+document.title = `${p.name} — Humble & Blessed`;
+const sizes = SIZES[p.id];
+document.getElementById('pdp').innerHTML = `
+  <div class="gallery"><img src="${p.img}" alt="${p.name}"></div>
+  <div>
+    <div class="label">${p.cat} · ${p.color}</div>
+    <h1>${p.name}</h1>
+    <div class="price">${money(p.price)}</div>
+    <p class="blurb">${p.blurb}</p>
+    <div class="label">Size</div>
+    <div class="sizes">${sizes.map((s,i) => `<button class="${i===0?'on':''}" data-s="${s}">${s}</button>`).join('')}</div>
+    <button class="btn wide solid" id="add">Add to cart</button>
+    <div class="added" id="added"></div>
+    <div style="margin-top:28px">
+      <details open><summary>Details</summary><ul>${p.details.map(d => `<li>${d}</li>`).join('')}</ul></details>
+      <details><summary>Fit</summary><ul><li>Runs true to size with a relaxed cut. Between sizes, take the smaller one.</li><li>Model is 5'11" and wears a medium.</li></ul></details>
+      <details><summary>Shipping and returns</summary><ul><li>Ships from New York in two to four business days. Free in the US over $100.</li><li>Unworn pieces can be returned within 14 days. Final drops are not restocked.</li></ul></details>
+    </div>
+  </div>`;
+let size = sizes[0];
+document.querySelectorAll('.sizes button').forEach(b => b.onclick = () => { document.querySelectorAll('.sizes button').forEach(x => x.classList.remove('on')); b.classList.add('on'); size = b.dataset.s; });
+document.getElementById('add').onclick = () => { addToCart(p.id, size); document.getElementById('added').textContent = `Added ${p.name}, ${size}.`; };
+cards(document.getElementById('more'), PRODUCTS.filter(x => x.id !== p.id));
+})();
+</script>
+</body>
+</html>

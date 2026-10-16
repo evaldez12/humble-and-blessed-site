@@ -1,0 +1,23 @@
+.DS_Store
+.claude/
+
+# working files that are not part of the websites
+prototypes/
+tools-*.py
+NOTES.md
+shared/cherub3d.js
+assets/models/
+assets/cherub-engraving-ink.png
+assets/cherub-engraving.png
+assets/cupid-engraving.jpg
+assets/cupid-marble.png
+assets/cupid-view-front.png
+assets/hero-still-a.png
+assets/ig-profile-screenshot.jpg
+assets/manhattan-lines.svg
+assets/monogram-hb-traced-2048.png
+assets/monogram-hb-traced-white-2048.png
+assets/monogram-hb.jpg
+assets/shorts-ig-crop.png
+assets/wordmark.png
+
