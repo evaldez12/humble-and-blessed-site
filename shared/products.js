@@ -1,4 +1,4 @@
-/* Placeholder catalogue for the Humble & Blessed prototypes. Prices and copy are stand-ins until Roger confirms. */
+/* Placeholder catalogue for the Humble & Blessed prototypes. Prices and copy are stand-ins until Rob confirms. */
 const PRODUCTS = [
   { id: 'shorts', name: 'Cherub mesh shorts', price: 65, cat: 'Shorts', img: '../assets/shorts.png', color: 'Black',
     blurb: 'Heavyweight polyester mesh, soft liner, 5" inseam. Cherub on the right leg, lettering on the left.',

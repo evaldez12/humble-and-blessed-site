@@ -71,8 +71,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 body.loading .pool{animation:fade 1.6s .6s both}
 .cherub img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(calc(var(--mx)*-14px) 34px 26px rgba(0,0,0,.9)) drop-shadow(calc(var(--mx)*-30px) 90px 80px rgba(0,0,0,.75))}
 .cherub .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
-  -webkit-mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;
-  background:linear-gradient(115deg,transparent 42%,rgba(255,226,160,.42) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;
+  -webkit-mask:url(../assets/cherub-marble.png) center/contain no-repeat;mask:url(../assets/cherub-marble.png) center/contain no-repeat;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,248,232,.38) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;
   animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes sheen{0%,55%{background-position:120% 0}100%{background-position:-20% 0}}
 .vignette{position:absolute;z-index:4;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(0,0,0,0),rgba(0,0,0,.85) 100%);pointer-events:none}
