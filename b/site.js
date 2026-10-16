@@ -121,7 +121,7 @@ function parallax(stage){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let tx = 0, ty = 0, cx = 0, cy = 0;
   addEventListener('pointermove', e => { tx = (e.clientX/innerWidth - .5)*2; ty = (e.clientY/innerHeight - .5)*2; }, { passive: true });
-  (function tick(){ cx += (tx-cx)*.05; cy += (ty-cy)*.05; stage.style.setProperty('--mx', cx.toFixed(3)); stage.style.setProperty('--my', cy.toFixed(3)); document.documentElement.style.setProperty('--mx', cx.toFixed(3)); document.documentElement.style.setProperty('--my', cy.toFixed(3)); requestAnimationFrame(tick); })();
+  (function tick(){ cx += (tx-cx)*.09; cy += (ty-cy)*.09; stage.style.setProperty('--mx', cx.toFixed(3)); stage.style.setProperty('--my', cy.toFixed(3)); document.documentElement.style.setProperty('--mx', cx.toFixed(3)); document.documentElement.style.setProperty('--my', cy.toFixed(3)); requestAnimationFrame(tick); })();
 }
 
 /* home: WebGL fog, value-noise fbm drifting slowly with a warm shaft near the centre */

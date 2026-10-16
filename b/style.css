@@ -58,25 +58,30 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 /* fixed cinematic stage behind the home page */
 .stage{position:fixed;inset:0;z-index:0;overflow:hidden;--p:0;--mx:0;--my:0}
-#fog{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+#fog{position:absolute;inset:-6%;width:112%;height:112%;display:block;z-index:0;transform:translate(calc(var(--mx)*-30px),calc(var(--my)*-16px))}
 .shaft{position:absolute;z-index:1;left:50%;top:-10%;width:34vw;height:120vh;transform:translateX(-50%) rotate(8deg);transform-origin:top center;
   background:linear-gradient(to bottom,rgba(255,236,190,.22),rgba(255,236,190,.05) 55%,rgba(255,236,190,0));filter:blur(28px);mix-blend-mode:screen;pointer-events:none;
   animation:breathe 11s ease-in-out infinite}
-@keyframes breathe{0%,100%{opacity:.85;transform:translateX(-50%) rotate(8deg)}50%{opacity:1.15;transform:translateX(-52%) rotate(6deg)}}
-#dust{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2}
+@keyframes breathe{0%,100%{opacity:.85;transform:translateX(calc(-50% + var(--mx)*-14px)) rotate(8deg)}50%{opacity:1.15;transform:translateX(calc(-52% + var(--mx)*-14px)) rotate(6deg)}}
+#dust{position:absolute;inset:-6%;width:112%;height:112%;display:block;pointer-events:none;z-index:2;transform:translate(calc(var(--mx)*-22px),calc(var(--my)*-12px))}
 .cherub{position:absolute;z-index:3;left:50%;top:50%;height:min(86vh,110vw);aspect-ratio:2/3;
-  transform:perspective(800px) translate(calc(-50% + var(--mx)*30px),calc(-50% + var(--my)*16px)) translateY(calc(var(--p)*-18vh)) rotateY(calc(var(--p)*-28deg + var(--mx)*14deg)) rotateX(calc(var(--my)*-9deg)) scale(calc(1 + var(--p)*.12));will-change:transform;
+  transform:perspective(700px) translate(calc(-50% + var(--mx)*44px),calc(-50% + var(--my)*22px)) translateY(calc(var(--p)*-18vh)) rotateY(calc(var(--p)*-28deg + var(--mx)*20deg)) rotateX(calc(var(--my)*-12deg)) scale(calc(1.02 + var(--p)*.12 + var(--my)*-.02));will-change:transform;
   opacity:calc(1 - var(--p)*.72)}
 .pool{position:absolute;z-index:2;left:50%;bottom:6vh;width:58vh;height:9vh;transform:translateX(calc(-50% + var(--mx)*-50px)) scaleX(calc(1 + var(--mx)*.12)) translateY(calc(var(--p)*-18vh));border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.95),rgba(0,0,0,0));filter:blur(10px);opacity:calc(1 - var(--p)*.9);pointer-events:none}
 body.loading .pool{animation:fade 1.6s .6s both}
 .cherub img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(calc(var(--mx)*-34px) 34px 26px rgba(0,0,0,.9)) drop-shadow(calc(var(--mx)*-80px) 90px 80px rgba(0,0,0,.75))}
+.cherub .spec{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+  -webkit-mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;
+  background:
+    radial-gradient(38% 30% at calc(50% + var(--mx)*42%) calc(42% + var(--my)*36%),rgba(255,230,170,.55),rgba(255,230,170,0) 70%),
+    linear-gradient(calc(90deg + var(--mx)*-60deg),rgba(120,150,200,0) 55%,rgba(120,150,200,.22) 80%,rgba(120,150,200,0) 100%)}
 .cherub .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
   -webkit-mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;mask:url(../assets/cherub-obsidian.png) center/contain no-repeat;
   background:linear-gradient(115deg,transparent 42%,rgba(255,226,160,.42) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;
   animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes sheen{0%,55%{background-position:120% 0}100%{background-position:-20% 0}}
 .vignette{position:absolute;z-index:4;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(0,0,0,0),rgba(0,0,0,.85) 100%);pointer-events:none}
-@keyframes in{from{opacity:0;transform:perspective(800px) translate(-50%,-50%) translateY(40px) scale(.95)}to{opacity:1;transform:perspective(800px) translate(-50%,-50%)}}
+@keyframes in{from{opacity:0;transform:perspective(700px) translate(-50%,-50%) translateY(40px) scale(.95)}to{opacity:1;transform:perspective(700px) translate(-50%,-50%) scale(1.02)}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 body.loading .cherub{animation:in 2.2s cubic-bezier(.2,.8,.2,1) both}
 body.loading .hero p,body.loading .hdr{animation:fade 1.2s 1.4s both}
@@ -228,6 +233,7 @@ details ul{margin-top:12px;padding-left:18px;font-family:"Cormorant Garamond",se
 @media (prefers-reduced-motion:reduce){
   body.loading *{animation:none!important}
   .shaft,.cherub .sheen,.about-art img,.about-art::after{animation:none!important}
+  .cherub .spec{display:none}
   .about-art img{-webkit-mask-image:none;mask-image:none}
   #dust{display:none}
   .cherub{transform:translate(-50%,-50%)!important;opacity:1!important}
