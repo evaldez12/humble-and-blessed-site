@@ -5,8 +5,8 @@
 prototypes/
 tools-*.py
 NOTES.md
-shared/cherub3d.js
-assets/models/
+assets/models/*
+!assets/models/cherub-hero.glb
 assets/cherub-engraving-ink.png
 assets/cherub-engraving.png
 assets/cupid-engraving.jpg
@@ -24,3 +24,12 @@ assets/wordmark.png
 assets/views/
 b/preview-3d.html
 b/preview-3d-*.html
+assets/cherub-marble-left.png
+assets/cherub-marble-right.png
+assets/cherub-marble-back.png
+assets/cupid-view-left.png
+assets/cupid-view-right.png
+assets/cupid-view-front-v2a.png
+assets/cupid-view-front-v2b.png
+assets/cupid-view-front-v3.png
+assets/cupid-view-front-v2a-mirrored.png
