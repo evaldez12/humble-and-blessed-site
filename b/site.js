@@ -29,7 +29,7 @@ document.body.insertAdjacentHTML('afterbegin', `
 document.body.insertAdjacentHTML('beforeend', `
 <footer class="ftr"><div class="wrap">
   <div class="cols">
-    <div><img class="mono" src="../assets/monogram-hb-footer-white.svg" alt="H&B monogram"><div class="logo">Humble&amp;Blessed</div><p style="margin-top:10px;max-width:28ch">Always be humble to stay blessed. Made in small runs in New York since 2020.</p></div>
+    <div><img class="mono" src="../assets/monogram-hb-footer-white.svg" alt="H&B monogram"><div class="logo">Humble&amp;Blessed</div><p style="margin-top:10px;max-width:28ch">Always Be Humble To Stay Blessed. Made in small runs in New York since 2020.</p></div>
     <div><h4>Shop</h4><a href="shop.html">All</a><a href="shop.html#Shorts">Shorts</a><a href="shop.html#Tees">Tees</a><a href="shop.html#Hoodies">Hoodies</a></div>
     <div><h4>Brand</h4><a href="lookbook.html">Lookbook</a><a href="about.html">About</a><a href="https://instagram.com/humblenblessed">Instagram</a></div>
     <div><h4>Help</h4><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Size guide</a><a href="mailto:hello@humblenblessed.com">Contact</a></div>
