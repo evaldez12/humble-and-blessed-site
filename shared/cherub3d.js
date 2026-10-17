@@ -108,7 +108,7 @@ float veinMask(vec3 p){
       ground.rotation.x = -Math.PI / 2; ground.position.y = b.min.y + .005; ground.receiveShadow = true; rig.add(ground);
     }
     if (opt.onLoad) opt.onLoad(api);
-  }, undefined, e => console.warn('cherub.glb missing', e));
+  }, undefined, e => { console.warn('cherub model failed to load', e); if (opt.onError) opt.onError(e); });
 
   let tx = 0, ty = 0, cx = 0, cy = 0, dragging = false, lx = 0, ly = 0, dy = 0, dp = 0, vy = 0, vp = 0;
   addEventListener('pointermove', e => {

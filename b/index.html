@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="../assets/logo-circle.png">
+<script>
+/* Decide before first paint: try 3D only if the device has WebGL. The 2D cutout stays hidden unless 3D fails. */
+(function(){ var ok=false; try{ var c=document.createElement('canvas'); ok=!!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){}
+  var h=document.documentElement; if(ok){ h.classList.add('try3d'); setTimeout(function(){ if(!document.body.classList.contains('has3d')) h.classList.add('no3d'); }, 8000); } })();
+</script>
 <link rel="stylesheet" href="style.css">
 <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -91,7 +96,8 @@ const api = mountCherub(canvas, {
   clearcoat: .08, sheen: .12, glow: 0x1c1a15, normalScale: .55, noRoughMap: true, veins: { strength: .42, scale: 2.6, color: 0x8a8782 },
   size: 2.9, y: -.3, tilt: .45, bob: .06,
   lights: [['dir', 0xfff8ee, 2.0, [.8, 2.5, 7]], ['hemi', 0xf6f4f0, 0x6a655c, 1.0], ['dir', 0xfffaf4, .55, [-2, 6, 2]], ['dir', 0xf4f2ee, .35, [3, 2, -5]]],
-  onLoad: () => document.body.classList.add('has3d') });
+  onLoad: () => { if (!document.documentElement.classList.contains('no3d')) document.body.classList.add('has3d'); },
+  onError: () => document.documentElement.classList.add('no3d') });
 addEventListener('scroll', () => { const p = Math.min(1, scrollY / innerHeight); api.yaw = -p * 1.4; }, { passive: true });
 </script>
 </body>
