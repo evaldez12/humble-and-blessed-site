@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cherub comparison — Humble & Blessed</title>
+<link rel="icon" href="assets/logo-circle.png">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+:root{--bone:#D9D2C5;--dim:#A69E90;--gold:#C9A24A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:var(--bone);font-family:"EB Garamond",Georgia,serif;font-size:17px;min-height:100vh;display:flex;flex-direction:column}
+header{padding:20px 24px 8px;text-align:center}
+header h1{font-weight:400;font-size:26px}
+header p{color:var(--dim);font-style:italic;margin-top:4px}
+.pair{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 24px}
+.pane{position:relative;border:1px solid rgba(217,210,197,.14);min-height:60vh}
+.pane canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pane h2{position:absolute;top:14px;left:0;right:0;text-align:center;font-weight:500;font-size:19px;z-index:2;pointer-events:none}
+.pane h2 small{display:block;font-weight:400;font-size:14px;color:var(--dim);font-style:italic}
+.controls{display:flex;gap:18px;align-items:center;justify-content:center;padding:14px 24px 26px;flex-wrap:wrap}
+.controls input[type=range]{width:min(420px,70vw);accent-color:var(--gold)}
+.controls button{font:inherit;color:var(--gold);background:none;border:1px solid rgba(201,162,74,.5);padding:8px 18px;cursor:pointer}
+@media (max-width:720px){.pair{grid-template-columns:1fr;padding:8px 12px}.pane{min-height:46vh}}
+</style>
+</head>
+<body>
+<header><h1>Which cherub?</h1><p>Same lighting and veining as the live site. Drag the slider to turn both together.</p></header>
+<div class="pair">
+  <div class="pane"><h2>Previous<small>photo plus AI side and back views</small></h2><canvas id="a"></canvas></div>
+  <div class="pane"><h2>New, live now<small>built from the reference photo alone</small></h2><canvas id="b"></canvas></div>
+</div>
+<div class="controls">
+  <input type="range" id="turn" min="-180" max="180" value="0" aria-label="Turn both cherubs">
+  <button id="spin">Spin</button><button id="front">Front</button>
+</div>
+<script type="module">
+import { mountCherub } from './shared/cherub3d.js?v=20261017a';
+const look = { rot: [0, 0, 0], tint: 0xf8f4ec, metalness: 0, roughness: .55,
+  studio: true, tone: 'agx', env: .9, envMap: 1.1, exposure: 1.3, groundShadow: .3, shadowRadius: 12,
+  clearcoat: .08, sheen: .12, glow: 0x1c1a15, normalScale: .55, noRoughMap: true, veins: { strength: .42, scale: 2.6, color: 0x8a8782 },
+  size: 2.9, y: -.25, tilt: 0, bob: 0, drag: false,
+  lights: [['dir', 0xfff8ee, 2.0, [.8, 2.5, 7]], ['hemi', 0xf6f4f0, 0x6a655c, 1.0], ['dir', 0xfffaf4, .55, [-2, 6, 2]], ['dir', 0xf4f2ee, .35, [3, 2, -5]]] };
+const A = mountCherub(document.getElementById('a'), { ...look, url: 'assets/models/cherub-hero-v2-300k.glb' });
+const B = mountCherub(document.getElementById('b'), { ...look, url: 'assets/models/cherub-hero-v3-300k.glb' });
+const turn = document.getElementById('turn'); let spinning = false;
+const set = deg => { A.yaw = B.yaw = deg * Math.PI / 180; turn.value = Math.round(((deg + 180) % 360 + 360) % 360 - 180); };
+turn.addEventListener('input', () => { spinning = false; set(+turn.value); });
+document.getElementById('front').onclick = () => { spinning = false; set(0); };
+document.getElementById('spin').onclick = () => { spinning = !spinning; };
+let deg = 0; (function tick(){ if (spinning) { deg = +turn.value + .6; set(deg); } requestAnimationFrame(tick); })();
+</script>
+</body>
+</html>
