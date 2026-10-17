@@ -1,9 +1,10 @@
-# Humble & Blessed — site options
+# Humble & Blessed — website
 
-Two complete site options for Humble & Blessed, a New York clothing label.
+The website for Humble & Blessed, a New York clothing label.
 
-- Option A, Sanctum: `a/index.html`
-- Option B, Nocturne: `b/index.html`
+- Main site, Nocturne: `b/index.html` (the root `index.html` redirects there)
+- Hub page: `options.html`; cherub model comparison: `compare.html`
 
-Open `index.html` for the hub that links both. Every page works by double-clicking the file; no build step.
+Every page works by double-clicking the file; no build step.
 Prices, product copy, lookbook images and the founding story are placeholders until the owner confirms them.
+Option A (Sanctum) was removed on 2026-10-17; it remains in git history.
