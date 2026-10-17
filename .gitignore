@@ -8,6 +8,7 @@ NOTES.md
 assets/models/*
 !assets/models/cherub-hero-v2-300k.glb
 !assets/models/cherub-hero-v3-300k.glb
+!assets/models/cupid-web-300k.glb
 assets/cherub-engraving-ink.png
 assets/cherub-engraving.png
 assets/cupid-engraving.jpg

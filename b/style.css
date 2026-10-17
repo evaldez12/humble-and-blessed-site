@@ -134,6 +134,12 @@ main{position:relative;z-index:1}
 .about > div{max-width:520px;background:var(--stone);padding:48px;border:1px solid var(--line)}
 .about-art{position:relative;margin:0;--reveal:0%;
   transform:translate(calc(var(--mx,0)*-10px),calc(var(--my,0)*-6px));transition:transform .4s ease-out}
+.about-art .cupid3d{display:none;width:100%;aspect-ratio:4/3;cursor:grab;touch-action:pan-y}
+html.try3d:not(.no3d) .about-art .cupid3d{display:block}
+.about-art.has3d .cupid3d{animation:fade 1.2s ease both}
+.about-art.has3d img{display:none}
+.about-art.has3d::after{inset:auto 22% 10% 22%;height:10%}
+html.try3d:not(.no3d) .about-art:not(.has3d) img{position:absolute;inset:0;opacity:0}
 .about-art img{width:100%;display:block;opacity:.9;animation:float 7s ease-in-out infinite;
   -webkit-mask-image:linear-gradient(105deg,#000 var(--reveal),transparent calc(var(--reveal) + 22%));mask-image:linear-gradient(105deg,#000 var(--reveal),transparent calc(var(--reveal) + 22%))}
 .about-art::after{content:"";position:absolute;inset:auto 10% -6% 10%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(201,162,74,.18),rgba(201,162,74,0));filter:blur(8px);animation:floatShadow 7s ease-in-out infinite}
