@@ -13,7 +13,7 @@
 (function(){ var ok=false; try{ var c=document.createElement('canvas'); ok=!!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){}
   var h=document.documentElement; if(ok){ h.classList.add('try3d'); setTimeout(function(){ if(!document.body.classList.contains('has3d')) h.classList.add('no3d'); }, 8000); } })();
 </script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20261017a">
 <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body data-page="home" class="loading">
@@ -69,8 +69,8 @@
   </div>
 </main>
 
-<script src="../shared/products.js"></script>
-<script src="site.js"></script>
+<script src="../shared/products.js?v=20261017a"></script>
+<script src="site.js?v=20261017a"></script>
 <script>
 (() => {
 const { LOOKS, PRODUCTS, cards, countdown, dust, fog, motto, parallax } = Object.assign({}, window.HB_DATA, window.HB);
@@ -88,7 +88,7 @@ addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
 })();
 </script>
 <script type="module">
-import { mountCherub } from '../shared/cherub3d.js';
+import { mountCherub } from '../shared/cherub3d.js?v=20261017a';
 const CUPID_ROT = -Math.PI / 2;
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
