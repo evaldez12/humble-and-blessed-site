@@ -24,7 +24,7 @@ export function mountCherub(canvas, o = {}) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor(0x000000, 0);
   if (opt.studio) {
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMapping = opt.tone === 'agx' ? THREE.AgXToneMapping : opt.tone === 'linear' ? THREE.LinearToneMapping : THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = opt.exposure ?? 1.0;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -40,7 +40,7 @@ export function mountCherub(canvas, o = {}) {
       const d = new THREE.DirectionalLight(l[1], l[2]); d.position.set(...l[3]); scene.add(d);
       if (opt.studio && !scene.userData.key) {
         scene.userData.key = d; d.castShadow = true;
-        d.shadow.mapSize.set(2048, 2048); d.shadow.bias = -0.0004; d.shadow.normalBias = 0.02; d.shadow.radius = 4;
+        d.shadow.mapSize.set(2048, 2048); d.shadow.bias = -0.0004; d.shadow.normalBias = 0.02; d.shadow.radius = opt.shadowRadius ?? 4;
         const c = d.shadow.camera; c.left = c.bottom = -3; c.right = c.top = 3; c.near = .5; c.far = 30;
       }
     }
@@ -64,7 +64,8 @@ export function mountCherub(canvas, o = {}) {
         const keep = !opt.noMap;
         n.material = new THREE.MeshPhysicalMaterial({ color: opt.tint, roughness: keep && old.roughnessMap ? 1 : opt.roughness, metalness: 0,
           map: keep ? old.map : null, normalMap: keep ? old.normalMap : null, roughnessMap: keep ? old.roughnessMap : null,
-          clearcoat: .18, clearcoatRoughness: .45, sheen: .25, sheenRoughness: .8, sheenColor: 0xfff4e6 });
+          clearcoat: opt.clearcoat ?? .18, clearcoatRoughness: .45, sheen: opt.sheen ?? .25, sheenRoughness: .8, sheenColor: 0xfff4e6,
+          emissive: opt.glow ?? 0x000000, envMapIntensity: opt.envMap ?? 1 });
         if (keep && old.normalMap) n.material.normalScale.copy(old.normalScale);
         n.castShadow = true; n.receiveShadow = true;
       } else {
