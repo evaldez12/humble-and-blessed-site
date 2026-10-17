@@ -86,10 +86,10 @@ addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
 import { mountCherub } from '../shared/cherub3d.js';
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
-  url: '../assets/models/cherub-hero.glb', rot: [0, 0, 0], tint: 0xffffff, metalness: 0, roughness: .5,
-  studio: true, env: .55, exposure: 1.3, groundShadow: .6,
+  url: '../assets/models/cherub-hero.glb', rot: [0, 0, 0], tint: 0xfff0dc, metalness: 0, roughness: .5,
+  studio: true, env: .5, exposure: 1.55, groundShadow: .6,
   size: 2.9, y: -.3, tilt: .45, bob: .06,
-  lights: [['dir', 0xfff1dc, 2.6, [-3.5, 6, 3]], ['hemi', 0xf1ece4, 0x1a1614, .45], ['dir', 0xa9bcdc, 1.2, [5, 2.5, -5]]],
+  lights: [['dir', 0xffe2b8, 2.8, [-3.5, 6, 3]], ['hemi', 0xfff0dc, 0x1f1812, .5], ['dir', 0xd8c4a8, .9, [5, 2.5, -5]]],
   onLoad: () => document.body.classList.add('has3d') });
 addEventListener('scroll', () => { const p = Math.min(1, scrollY / innerHeight); api.yaw = -p * 1.4; }, { passive: true });
 </script>
