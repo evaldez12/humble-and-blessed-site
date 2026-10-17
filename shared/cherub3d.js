@@ -66,7 +66,8 @@ export function mountCherub(canvas, o = {}) {
           map: keep ? old.map : null, normalMap: keep ? old.normalMap : null, roughnessMap: keep ? old.roughnessMap : null,
           clearcoat: opt.clearcoat ?? .18, clearcoatRoughness: .45, sheen: opt.sheen ?? .25, sheenRoughness: .8, sheenColor: 0xfff4e6,
           emissive: opt.glow ?? 0x000000, envMapIntensity: opt.envMap ?? 1 });
-        if (keep && old.normalMap) n.material.normalScale.copy(old.normalScale);
+        if (keep && old.normalMap) { n.material.normalScale.copy(old.normalScale); if (opt.normalScale != null) n.material.normalScale.setScalar(opt.normalScale); }
+        if (opt.noRoughMap) { n.material.roughnessMap = null; n.material.roughness = opt.roughness; }
         n.castShadow = true; n.receiveShadow = true;
       } else {
         n.material.metalness = opt.metalness; n.material.roughness = opt.roughness;
