@@ -7,6 +7,7 @@ tools-*.py
 NOTES.md
 assets/models/*
 !assets/models/cherub-hero-v2-300k.glb
+!assets/models/cherub-hero-v3-300k.glb
 assets/cherub-engraving-ink.png
 assets/cherub-engraving.png
 assets/cupid-engraving.jpg
@@ -34,3 +35,5 @@ assets/cupid-view-front-v2b.png
 assets/cupid-view-front-v3.png
 assets/cupid-view-front-v2a-mirrored.png
 assets/cherub-reference-front.png
+assets/upload/
+b/preview-v3.html
