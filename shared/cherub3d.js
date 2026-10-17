@@ -68,6 +68,31 @@ export function mountCherub(canvas, o = {}) {
           emissive: opt.glow ?? 0x000000, envMapIntensity: opt.envMap ?? 1 });
         if (keep && old.normalMap) { n.material.normalScale.copy(old.normalScale); if (opt.normalScale != null) n.material.normalScale.setScalar(opt.normalScale); }
         if (opt.noRoughMap) { n.material.roughnessMap = null; n.material.roughness = opt.roughness; }
+        if (opt.veins) {
+          const V = opt.veins;
+          n.material.onBeforeCompile = sh => {
+            sh.uniforms.uVein = { value: V.strength ?? .22 }; sh.uniforms.uVeinScale = { value: V.scale ?? 2.2 };
+            sh.uniforms.uVeinColor = { value: new THREE.Color(V.color ?? 0x8f8c87) };
+            sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vObjPos;')
+              .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObjPos = position;');
+            sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+varying vec3 vObjPos; uniform float uVein; uniform float uVeinScale; uniform vec3 uVeinColor;
+float h3(vec3 p){ p = fract(p*0.3183099+.1); p *= 17.0; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+float n3(vec3 x){ vec3 i=floor(x), f=fract(x); f=f*f*(3.-2.*f);
+  return mix(mix(mix(h3(i),h3(i+vec3(1,0,0)),f.x),mix(h3(i+vec3(0,1,0)),h3(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(h3(i+vec3(0,0,1)),h3(i+vec3(1,0,1)),f.x),mix(h3(i+vec3(0,1,1)),h3(i+vec3(1,1,1)),f.x),f.y),f.z); }
+float fbm3(vec3 p){ float v=0., a=.5; for(int k=0;k<5;k++){ v+=a*n3(p); p=p*2.03+vec3(1.7,9.2,4.1); a*=.5; } return v; }
+float veinMask(vec3 p){
+  float w = fbm3(p*1.3)*3.2;
+  float a = abs(sin(p.x*1.1 + p.y*2.3 + p.z*.7 + w));
+  float b = abs(sin(p.x*2.7 - p.y*1.4 + p.z*1.9 + w*1.4 + 2.0));
+  float l1 = 1.0 - smoothstep(0.0, .16, a);
+  float l2 = (1.0 - smoothstep(0.0, .1, b)) * .55;
+  return clamp(max(l1, l2) * (.55 + .45*fbm3(p*3.1)), 0., 1.);
+}`).replace('#include <map_fragment>', `#include <map_fragment>
+{ float vm = veinMask(vObjPos*uVeinScale); diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*uVeinColor, vm*uVein*1.8); }`);
+          };
+        }
         n.castShadow = true; n.receiveShadow = true;
       } else {
         n.material.metalness = opt.metalness; n.material.roughness = opt.roughness;
