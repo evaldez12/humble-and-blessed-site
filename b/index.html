@@ -87,9 +87,9 @@ import { mountCherub } from '../shared/cherub3d.js';
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
   url: '../assets/models/cherub-hero.glb', rot: [0, 0, 0], tint: 0xfff0dc, metalness: 0, roughness: .5,
-  studio: true, env: .5, exposure: 1.55, groundShadow: .6,
+  studio: true, env: .28, exposure: 1.05, groundShadow: .7,
   size: 2.9, y: -.3, tilt: .45, bob: .06,
-  lights: [['dir', 0xffe2b8, 2.8, [-3.5, 6, 3]], ['hemi', 0xfff0dc, 0x1f1812, .5], ['dir', 0xd8c4a8, .9, [5, 2.5, -5]]],
+  lights: [['dir', 0xffe4bf, 3.2, [-3, 5.5, 3.5]], ['hemi', 0xfff0dc, 0x120d0a, .18], ['dir', 0xffd9a8, 1.6, [3.5, 3, -5]]],
   onLoad: () => document.body.classList.add('has3d') });
 addEventListener('scroll', () => { const p = Math.min(1, scrollY / innerHeight); api.yaw = -p * 1.4; }, { passive: true });
 </script>
