@@ -110,7 +110,7 @@ function dust(c){
       const near = Math.max(0, 1 - Math.abs(p.x - cx) / (W*.22));
       const tw = .55 + .45*Math.sin(t/900 + p.a*9);
       ctx.globalAlpha = (0.08 + near*.55) * tw;
-      ctx.fillStyle = '#ffe6b4'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill();
+      ctx.fillStyle = '#efece5'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill();
     }
     requestAnimationFrame(frame);
   })(0);
@@ -139,7 +139,7 @@ function fog(c){
     float ground=smoothstep(.95,.1,uv.y);float d=f*ground*.75;
     vec3 col=mix(vec3(0.),vec3(.16,.14,.12),d);
     float shaft=exp(-pow((uv.x-.5+(uv.y-.5)*.12)*6.,2.))*(1.-uv.y)*.12;
-    col+=vec3(.8,.66,.38)*shaft*(.6+f*.8);gl_FragColor=vec4(col,1.);}`;
+    col+=vec3(.82,.81,.78)*shaft*(.6+f*.8);gl_FragColor=vec4(col,1.);}`;
   const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return o; };
   const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
   const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);

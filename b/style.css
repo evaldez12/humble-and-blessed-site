@@ -1,6 +1,6 @@
 @font-face{font-family:"Cloister Black";src:url(../assets/fonts/CloisterBlack.woff2) format("woff2"),url(../assets/fonts/CloisterBlack.ttf) format("truetype");font-weight:400;font-display:swap}
 /* Humble & Blessed — option B "Nocturne". Black, warm stone, bone text, gold hairlines, fog. */
-:root{--black:#000;--stone:#1C1A17;--stone2:#262320;--bone:#D9D2C5;--dim:#7E776B;--gold:#C9A24A;--line:rgba(217,210,197,.14);--gline:rgba(201,162,74,.5)}
+:root{--black:#000;--stone:#1C1A17;--stone2:#262320;--bone:#D9D2C5;--dim:#7E776B;--gold:#E9E6DF;--line:rgba(217,210,197,.14);--gline:rgba(233,230,223,.5)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--bone);font-family:"EB Garamond",Georgia,serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -96,7 +96,7 @@ main{position:relative;z-index:1}
 
 .motto{padding:20vh 32px 24vh;text-align:center}
 .motto .line{font-family:"UnifrakturCook",serif;font-weight:700;font-size:clamp(56px,11vw,160px);line-height:1;color:#2A2622;transition:color .6s,text-shadow .6s}
-.motto .line.lit{color:var(--bone);text-shadow:0 10px 22px rgba(0,0,0,.9),0 30px 60px rgba(0,0,0,.6),0 0 40px rgba(201,162,74,.25)}
+.motto .line.lit{color:var(--bone);text-shadow:0 10px 22px rgba(0,0,0,.9),0 30px 60px rgba(0,0,0,.6),0 0 40px rgba(233,230,223,.25)}
 .motto .line.gold.lit{color:var(--gold)}
 
 /* solid sections sit on black so the stage stays behind the hero only */
@@ -142,7 +142,7 @@ html.try3d:not(.no3d) .about-art .cupid3d{display:block}
 html.try3d:not(.no3d) .about-art:not(.has3d) img{position:absolute;inset:0;opacity:0}
 .about-art img{width:100%;display:block;opacity:.9;animation:float 7s ease-in-out infinite;
   -webkit-mask-image:linear-gradient(105deg,#000 var(--reveal),transparent calc(var(--reveal) + 22%));mask-image:linear-gradient(105deg,#000 var(--reveal),transparent calc(var(--reveal) + 22%))}
-.about-art::after{content:"";position:absolute;inset:auto 10% -6% 10%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(201,162,74,.18),rgba(201,162,74,0));filter:blur(8px);animation:floatShadow 7s ease-in-out infinite}
+.about-art::after{content:"";position:absolute;inset:auto 10% -6% 10%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(233,230,223,.18),rgba(233,230,223,0));filter:blur(8px);animation:floatShadow 7s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
 @keyframes floatShadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.85);opacity:.6}}
 .about h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:38px;line-height:1.1;margin-bottom:20px}
