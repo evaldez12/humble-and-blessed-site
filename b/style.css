@@ -60,10 +60,21 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .stage{position:fixed;inset:0;z-index:0;overflow:hidden;--p:0;--mx:0;--my:0}
 #fog{position:absolute;inset:-6%;width:112%;height:112%;display:block;z-index:0;transform:translate(calc(var(--mx)*-30px),calc(var(--my)*-16px))}
 .shaft{position:absolute;z-index:1;left:50%;top:-10%;width:34vw;height:120vh;transform:translateX(-50%) rotate(8deg);transform-origin:top center;
-  background:linear-gradient(to bottom,rgba(255,236,190,.22),rgba(255,236,190,.05) 55%,rgba(255,236,190,0));filter:blur(28px);mix-blend-mode:screen;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(240,236,228,.22),rgba(240,236,228,.05) 55%,rgba(240,236,228,0));filter:blur(28px);mix-blend-mode:screen;pointer-events:none;
   animation:breathe 11s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.85;transform:translateX(calc(-50% + var(--mx)*-14px)) rotate(8deg)}50%{opacity:1.15;transform:translateX(calc(-52% + var(--mx)*-14px)) rotate(6deg)}}
 #dust{position:absolute;inset:-6%;width:112%;height:112%;display:block;pointer-events:none;z-index:2;transform:translate(calc(var(--mx)*-22px),calc(var(--my)*-12px))}
+/* marble wordmark behind the cherub: same ivory stone and grey veining as the 3D model, lit from the top front */
+.wm{position:absolute;z-index:3;left:0;right:0;top:19vh;text-align:center;pointer-events:none;
+  transform:translate(calc(var(--mx)*-10px),calc(var(--my)*-6px)) translateY(calc(var(--p)*-10vh));opacity:calc(1 - var(--p)*.8);
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.85)) drop-shadow(0 40px 60px rgba(0,0,0,.6))}
+.wm span{display:inline-block;font-family:"Cloister Black","UnifrakturCook",serif;font-weight:400;font-size:var(--wm,13vw);line-height:1;white-space:nowrap;
+  color:#cfc9bd;background:
+    linear-gradient(to bottom,rgba(255,255,255,.18),rgba(255,255,255,0) 35%,rgba(40,36,30,.32) 100%),
+    radial-gradient(70% 100% at 50% 15%,rgba(255,255,255,.1),rgba(0,0,0,.14)),
+    url(../assets/marble-ivory.webp) center/cover;
+  background-blend-mode:normal,multiply,normal;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+body.loading .wm{animation:fade 2s .4s both}
 .cherub{position:absolute;z-index:3;left:50%;top:50%;height:min(86vh,110vw);aspect-ratio:2/3;
   transform:perspective(1000px) translate(calc(-50% + var(--mx)*18px),calc(-50% + var(--my)*10px)) translateY(calc(var(--p)*-18vh)) rotateY(calc(var(--mx)*7deg)) rotateX(calc(var(--my)*-4deg)) scale(calc(1 + var(--p)*.12));will-change:transform;
   opacity:calc(1 - var(--p)*.72)}
@@ -83,7 +94,7 @@ html.no3d .cherub3d{display:none}
   background:linear-gradient(115deg,transparent 42%,rgba(255,248,232,.38) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;
   animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes sheen{0%,55%{background-position:120% 0}100%{background-position:-20% 0}}
-.vignette{position:absolute;z-index:4;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(0,0,0,0),rgba(0,0,0,.85) 100%);pointer-events:none}
+.vignette{position:absolute;z-index:2;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(0,0,0,0),rgba(0,0,0,.85) 100%);pointer-events:none}
 @keyframes in{from{opacity:0;transform:perspective(1000px) translate(-50%,-50%) translateY(40px) scale(.95)}to{opacity:1;transform:perspective(1000px) translate(-50%,-50%)}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 body.loading .cherub{animation:in 2.2s cubic-bezier(.2,.8,.2,1) both}

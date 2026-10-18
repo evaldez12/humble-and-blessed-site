@@ -13,7 +13,7 @@
 (function(){ var ok=false; try{ var c=document.createElement('canvas'); ok=!!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){}
   var h=document.documentElement; if(ok){ h.classList.add('try3d'); setTimeout(function(){ if(!document.body.classList.contains('has3d')) h.classList.add('no3d'); }, 8000); } })();
 </script>
-<link rel="stylesheet" href="style.css?v=20261017d">
+<link rel="stylesheet" href="style.css?v=20261018a">
 <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body data-page="home" class="loading">
@@ -21,12 +21,20 @@
 <div class="stage" id="stage" aria-hidden="true">
   <canvas id="fog"></canvas>
   <div class="shaft"></div>
+  <div class="wm" id="wm"><span>Humble&amp;Blessed</span></div>
   <canvas id="dust"></canvas>
   <div class="cherub"><img src="../assets/cherub-marble.png" alt=""><div class="sheen"></div></div>
   <div class="pool"></div>
   <canvas class="cherub3d" id="cherub3d" aria-label="Ivory marble cherub. Drag to turn it."></canvas>
   <div class="vignette"></div>
 </div>
+<script>
+/* size the marble wordmark to the screen width, like option A */
+(function(){ var w=document.getElementById('wm'), t=w.firstChild;
+  function fit(){ t.style.fontSize='100px'; var r=t.getBoundingClientRect().width; t.style.fontSize='';
+    w.style.setProperty('--wm', Math.min(100*innerWidth*.94/r, innerHeight*.34)+'px'); }
+  fit(); addEventListener('resize', fit); if (document.fonts) document.fonts.ready.then(fit); })();
+</script>
 
 <main>
   <section class="hero">
@@ -69,8 +77,8 @@
   </div>
 </main>
 
-<script src="../shared/products.js?v=20261017d"></script>
-<script src="site.js?v=20261017d"></script>
+<script src="../shared/products.js?v=20261018a"></script>
+<script src="site.js?v=20261018a"></script>
 <script>
 (() => {
 const { LOOKS, PRODUCTS, cards, countdown, dust, fog, motto, parallax } = Object.assign({}, window.HB_DATA, window.HB);
@@ -88,7 +96,7 @@ addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
 })();
 </script>
 <script type="module">
-import { mountCherub } from '../shared/cherub3d.js?v=20261017d';
+import { mountCherub } from '../shared/cherub3d.js?v=20261018a';
 const CUPID_ROT = -Math.PI / 2;
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
