@@ -14,7 +14,7 @@
   },
   "d1_databases": [
     // create with: wrangler d1 create hb-store   then paste the database_id it prints here
-    { "binding": "DB", "database_name": "hb-store", "database_id": "PASTE-DATABASE-ID" }
+    { "binding": "DB", "database_name": "hb-store", "database_id": "ef33b909-bbf0-4ff7-b60a-85320af29d7e" }
   ],
   "vars": {
     "SITE_URL": "https://humble-and-blessed.bizallies.workers.dev",
