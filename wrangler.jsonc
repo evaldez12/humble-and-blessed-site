@@ -1,0 +1,28 @@
+{
+  // Cloudflare Worker: serves the static site and answers /api/* (waitlist, admin, products, drops, Stripe).
+  // Deploy: `wrangler deploy`, or connect the GitHub repo in Cloudflare (Workers & Pages) so every push deploys.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "humble-and-blessed",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/product-*", "/product", "/product.html", "/media/*", "/b", "/b/*"]
+  },
+  "d1_databases": [
+    // create with: wrangler d1 create hb-store   then paste the database_id it prints here
+    { "binding": "DB", "database_name": "hb-store", "database_id": "PASTE-DATABASE-ID" }
+  ],
+  "vars": {
+    "SITE_URL": "https://humble-and-blessed.bizallies.workers.dev",
+    "MAIL_FROM": "Humble & Blessed <onboarding@resend.dev>",
+    "SHIP_FLAT_CENTS": "800",
+    "FREE_SHIP_OVER_CENTS": "10000",
+    "SHIP_COUNTRIES": "US"
+  }
+  // secrets (wrangler secret put NAME): ADMIN_KEY (required), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET,
+  // RESEND_API_KEY, META_CAPI_TOKEN (+ var META_PIXEL_ID) — see LAUNCH.md
+}

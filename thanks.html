@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order placed — Humble & Blessed</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Order placed.">
+<!--seo-->
+<meta name="robots" content="noindex">
+<!--/seo-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/logo-circle.png">
+<link rel="stylesheet" href="css/store.css?v=20261022a">
+<link rel="stylesheet" href="style.css?v=20261022a">
+</head>
+<body data-page="thanks">
+
+<section class="page-head thanks"><div class="wrap">
+  <h1>Thank you</h1>
+  <p>Your order is in. A receipt is on its way from Stripe, and tracking follows as soon as the label prints. Tag <a href="https://instagram.com/humblenblessed" target="_blank" rel="noopener">@humblenblessed</a> when it lands.</p>
+  <p class="motto-line">Always Be Humble To Stay Blessed.</p>
+  <p><a class="btn" href="shop.html">Back to the shop</a></p>
+</div></section>
+
+<script src="site.js?v=20261022a"></script>
+<script type="module">
+import { initStore } from './js/hb.js?v=20261022a';
+import { clearCart, track } from './js/store.js';
+await initStore();
+clearCart();
+// purchase event for ad pixels; the Worker sends the same event id server-side so Meta counts it once
+const sid = new URLSearchParams(location.search).get('session_id');
+if (sid) fetch('/api/order?session_id=' + encodeURIComponent(sid)).then(r => r.ok ? r.json() : null).then(o => { if (o) track('Purchase', { value: o.value, currency: o.currency }, o.id); }).catch(() => {});
+</script>
+</body>
+</html>

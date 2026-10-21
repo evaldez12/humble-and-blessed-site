@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__P_NAME__ — Humble & Blessed</title>
+<meta name="description" content="__P_DESC__">
+<!--seo-->
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Humble &amp; Blessed">
+<meta property="og:title" content="__P_NAME__ — Humble &amp; Blessed">
+<meta property="og:description" content="__P_DESC__">
+<meta property="og:image" content="__P_IMAGE__">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="__P_IMAGE__">
+<meta name="theme-color" content="#000000">
+<!--/seo-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/logo-circle.png">
+<link rel="stylesheet" href="css/store.css?v=20261022a">
+<link rel="stylesheet" href="style.css?v=20261022a">
+</head>
+<body data-page="shop">
+
+<!-- One template for every product. The store Worker serves it at /product-<id> and fills the __P_*__ values
+     (title, description, share image); js/store.js then draws photos, sizes, stock and the buy button. -->
+<main class="pdp" data-product="__P_ID__">
+  <div class="wrap">
+    <div class="gallery" id="pdp-gallery"></div>
+    <div>
+      <p class="label crumbs"><a href="shop.html">Shop</a> / <span id="pdp-crumb">__P_NAME__</span></p>
+      <h1 id="pdp-name">__P_NAME__</h1>
+      <p class="label" id="pdp-color">__P_COLOR__</p>
+      <div class="price" id="pdp-price"></div>
+      <p class="blurb" id="pdp-desc">__P_DESC__</p>
+      <div class="label">Size</div>
+      <div class="sizes" id="sizes"></div>
+      <div class="cta" id="cta"></div>
+      <div style="margin-top:28px">
+        <details open id="pdp-details-box"><summary>Details</summary><ul id="pdp-details"></ul></details>
+        <details id="pdp-chart-box"><summary>Size guide</summary><div id="pdp-chart"></div></details>
+        <details><summary>Fit</summary><ul><li>Runs true to size with a relaxed cut. Between sizes, take the smaller one.</li><li>Model is 5'11" and wears a medium.</li></ul></details>
+        <details><summary>Shipping and returns</summary><ul><li>Ships from New York in two to four business days. Free in the US over $100.</li><li>Unworn pieces can be returned within 14 days. Final drops are not restocked. <a href="info.html#returns">Returns</a></li></ul></details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="section"><div class="wrap">
+  <div class="section-head"><h2>Also from Humble &amp; Blessed</h2><a href="shop.html">See everything</a></div>
+  <div class="grid" id="more"></div>
+</div></section>
+
+<script src="site.js?v=20261022a"></script>
+<script type="module">
+import { initStore, renderCards } from './js/hb.js?v=20261022a';
+import { renderProductPage, productById, productStatus, productUrl, imgUrl } from './js/store.js';
+const main = document.querySelector('main.pdp');
+// served by the Worker the id is filled in; on the static mirror it comes from ?id=
+let id = main.dataset.product;
+if (id.startsWith('__P_')) id = new URLSearchParams(location.search).get('id') || 'shorts';
+const products = await initStore();
+const draw = () => {
+  renderProductPage(id);
+  renderCards(document.getElementById('more'), products.filter(x => x.id !== id));
+};
+draw(); document.addEventListener('store:state', draw);
+// search: canonical address, description and product data (price only while it can be bought)
+const p = productById(id);
+if (p) {
+  const url = new URL(productUrl(p), location.href).href;
+  let c = document.querySelector('link[rel=canonical]'); if (!c) { c = document.createElement('link'); c.rel = 'canonical'; document.head.appendChild(c); } c.href = url;
+  document.querySelector('meta[name=description]').content = `${p.name}. ${p.description || ''}`;
+  const st = productStatus(p), buyable = st === 'available' || st === 'preorder';
+  const ld = document.createElement('script'); ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Product', name: p.name, description: p.description, image: new URL(imgUrl(p.images?.[0]), location.href).href,
+    color: p.color, brand: { '@type': 'Brand', name: 'Humble & Blessed' },
+    ...(buyable ? { offers: { '@type': 'Offer', url, price: p.price, priceCurrency: 'USD', availability: st === 'preorder' ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock' } } : {}) });
+  document.head.appendChild(ld);
+}
+</script>
+</body>
+</html>

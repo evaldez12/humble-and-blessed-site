@@ -1,0 +1,22 @@
+[
+  { "id": "shorts", "name": "Cherub mesh shorts", "price": 65, "category": "shorts", "color": "Black",
+    "images": ["shorts.webp"],
+    "description": "Heavyweight polyester mesh, soft liner, 5\" inseam. Cherub on the right leg, lettering on the left.",
+    "details": ["100% polyester mesh, 240 gsm, with a soft jersey liner", "Elastic waist with a flat drawcord", "Two side pockets", "Screen-printed in New York"],
+    "sizeChart": "none", "sizes": ["S", "M", "L", "XL", "XXL"], "soldOut": false, "status": "live" },
+  { "id": "tee", "name": "Praying cherub tee", "price": 45, "category": "tees", "color": "Black",
+    "images": ["product-tee.webp"],
+    "description": "Boxy heavyweight tee with the praying cherub and lettering across the chest.",
+    "details": ["100% ring-spun cotton, 280 gsm", "Boxy fit, drop shoulder, ribbed collar", "Pre-shrunk, garment-washed", "Screen-printed in New York"],
+    "sizeChart": "none", "sizes": ["S", "M", "L", "XL", "XXL"], "soldOut": false, "status": "drop" },
+  { "id": "hoodie", "name": "Wordmark hoodie", "price": 120, "category": "hoodies", "color": "Black",
+    "images": ["product-hoodie.webp"],
+    "description": "Pullover with the blackletter wordmark across the chest and a small cherub on the sleeve.",
+    "details": ["80% cotton, 20% polyester fleece, 450 gsm", "Relaxed fit, double-lined hood, kangaroo pocket", "Ribbed cuffs and hem", "Printed in New York"],
+    "sizeChart": "none", "sizes": ["S", "M", "L", "XL", "XXL"], "soldOut": false, "status": "drop" },
+  { "id": "cap", "name": "Cherub cap", "price": 40, "category": "hats", "color": "Black",
+    "images": ["product-cap.webp"],
+    "description": "Unstructured six-panel cap with the cherub embroidered on the front.",
+    "details": ["100% cotton twill", "Unstructured crown, curved brim", "Metal slide buckle", "Embroidered in New York"],
+    "sizeChart": "none", "sizes": ["One size"], "soldOut": false, "status": "drop" }
+]

@@ -38,3 +38,11 @@ assets/cupid-view-front-v2a-mirrored.png
 assets/cherub-reference-front.png
 assets/upload/
 b/preview-v3.html
+
+# brand book + playbook (local only)
+brand-docs/
+
+# store (Cloudflare Worker) local files
+.wrangler/
+.dev.vars
+node_modules/

@@ -1,0 +1,3 @@
+# Local testing only (wrangler dev). Copy to .dev.vars — it is gitignored and kept out of the upload.
+# Use a throwaway value here, never the live admin key.
+ADMIN_KEY="localtest-change-me"

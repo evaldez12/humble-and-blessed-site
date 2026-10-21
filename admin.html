@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Humble & Blessed — Admin</title>
+<link rel="icon" href="assets/logo-circle.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Owner control room: dark, dense, one accent. Tabs across the top, one job per tab. */
+:root{--bg:#070707;--panel:#101010;--panel-2:#161512;--ink:#ece6d8;--dim:#8f8a80;--line:rgba(236,230,216,.14);--red:#E9E6DF;--ok:#3ddc84;--warn:#f5c542;--bar:#ece6d8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.5;min-height:100vh}
+a{color:inherit}
+.wrap{width:min(1160px,100% - 32px);margin:0 auto;padding:24px 0 80px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:20px}
+header .t{display:flex;align-items:center;gap:12px}
+header img{height:38px}
+header h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;letter-spacing:.02em;text-transform:uppercase}
+.px{font-family:'EB Garamond',Georgia,serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.btn:hover,.btn.solid{background:var(--ink);color:#000}
+.btn.sm{padding:6px 10px;font-size:11px}
+.btn.danger{border-color:var(--red);color:var(--red)}.btn.danger:hover{background:var(--red);color:#fff}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+nav.tabs button{font:inherit;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
+nav.tabs button.on{background:var(--ink);color:#000;border-color:var(--ink)}
+.tab{display:none}.tab.on{display:block}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.stat b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:36px;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:6px}
+.stat small{display:block;color:var(--dim);font-size:12px;margin-top:4px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.panel h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.panel p.help{color:var(--dim);font-size:14px;margin:-6px 0 14px;max-width:760px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-family:'EB Garamond',Georgia,serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n,th.n{font-variant-numeric:tabular-nums;text-align:right}
+.tablewrap{overflow-x:auto}
+.tag{display:inline-block;font-family:'EB Garamond',Georgia,serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border:1px solid var(--line);border-radius:999px;color:var(--dim)}
+.tag.ok{color:var(--ok);border-color:rgba(61,220,132,.4)}
+.tag.warn{color:var(--warn);border-color:rgba(245,197,66,.4)}
+.tag.red{color:#ff6b7a;border-color:rgba(255,107,122,.4)}
+form{display:grid;gap:10px}
+label{display:grid;gap:6px;font-size:13px;color:var(--dim)}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#000;color:var(--ink);font:inherit;font-size:15px}
+input[type=checkbox]{width:auto}
+textarea{min-height:130px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>label{flex:1;min-width:180px}
+.msg{font-size:13px;color:var(--dim);min-height:1.4em}
+.msg.err{color:#ff6b7a}.msg.ok{color:var(--ok)}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--panel-2);border:1px dashed var(--warn);color:var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:14px}
+/* bar chart: one series, thin bars, 4px rounded tops, 2px gaps, hover tooltip */
+.chart{position:relative;height:180px;display:flex;align-items:flex-end;gap:2px;padding-top:8px;border-bottom:1px solid var(--line)}
+.chart .b{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;cursor:default}
+.chart .b i{display:block;width:100%;background:var(--bar);border-radius:4px 4px 0 0;min-height:1px;opacity:.9}
+.chart .b:hover i{opacity:1;background:#fff}
+.chart .b.peak i{background:var(--red)}
+.axis{display:flex;justify-content:space-between;color:var(--dim);font-size:11px;margin-top:6px;font-variant-numeric:tabular-nums}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:#000;font-size:12px;font-weight:600;padding:6px 9px;border-radius:8px;transform:translate(-50%,-120%);opacity:0;transition:opacity .1s;z-index:9;white-space:nowrap}
+.bar-inline{height:8px;border-radius:4px;background:var(--line);overflow:hidden;min-width:80px}
+.bar-inline i{display:block;height:100%;background:var(--ink);border-radius:4px}
+.prod{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.prod:last-child{border-bottom:0}
+.prod img{width:64px;height:64px;object-fit:cover;border-radius:10px;background:#000000}
+.prod .stock{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.prod .stock label{display:flex;align-items:center;gap:4px;font-size:12px;min-width:0}
+.prod .stock input{width:64px;padding:6px 8px;font-size:14px;text-align:right}
+.prod .ctrl{display:grid;gap:8px;justify-items:end}
+.prod select{width:auto;padding:7px 10px;font-size:13px}
+.pe-photos{display:flex;gap:12px;flex-wrap:wrap}
+.pe-photo{display:grid;gap:6px;width:116px}
+.pe-photo img{width:116px;height:116px;object-fit:cover;border-radius:10px;background:#000000;display:block}
+.prod .tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+#login{max-width:460px;margin:12vh auto 0;text-align:center}
+#login p{color:var(--dim);margin:10px 0 20px}
+#app{display:none}
+.hidden{display:none!important}
+@media(max-width:860px){.grid4{grid-template-columns:1fr 1fr}.prod{grid-template-columns:52px 1fr}.prod .ctrl{grid-column:1/-1;justify-items:start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="t"><img src="assets/monogram-hb-header-white.svg" alt=""><h1>Control room</h1></div>
+    <div class="row"><span class="px" id="who"></span><a class="btn sm" href="/" target="_blank" rel="noopener">View site</a><button class="btn sm hidden" id="logout">Lock</button></div>
+  </header>
+
+  <section id="login">
+    <span class="px">Owner only</span>
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;text-transform:uppercase;margin-top:8px">Enter the admin key</h2>
+    <p>Your key unlocks the dashboard, drops, stock, discount codes and members.</p>
+    <form id="login-form"><input id="key" type="password" placeholder="Admin key" autocomplete="current-password" required><button class="btn solid" type="submit">Open</button><div class="msg" id="login-msg"></div></form>
+  </section>
+
+  <main id="app">
+    <nav class="tabs" aria-label="Sections">
+      <button data-tab="dash" class="on">Dashboard</button>
+      <button data-tab="drop">Drop &amp; early access</button>
+      <button data-tab="products">Products &amp; stock</button>
+      <button data-tab="codes">Discount codes</button>
+      <button data-tab="members">Members &amp; email</button>
+    </nav>
+
+    <!-- DASHBOARD -->
+    <section class="tab on" id="tab-dash">
+      <div class="banner hidden" id="demo-banner"><span>Example data. Your real numbers appear here after the first sale.</span><button class="btn sm" id="demo-off" data-demo-off>Show real numbers</button></div>
+      <div class="grid4">
+        <div class="stat"><span class="px">Revenue, 30 days</span><b id="d-rev">–</b><small id="d-rev-all"></small></div>
+        <div class="stat"><span class="px">Orders, 30 days</span><b id="d-orders">–</b><small id="d-aov"></small></div>
+        <div class="stat"><span class="px">Members</span><b id="d-members">–</b><small id="d-signups"></small></div>
+        <div class="stat"><span class="px">Bought in early access</span><b id="d-share">–</b><small>Share of all orders</small></div>
+      </div>
+      <div class="panel">
+        <h2>Revenue per day, last 30 days <span class="row"><button class="btn sm" id="demo-on" data-demo-on>Preview with example data</button><button class="btn sm" id="dash-refresh">Refresh</button></span></h2>
+        <div class="chart" id="c-rev" role="img" aria-label="Revenue per day for the last 30 days"></div>
+        <div class="axis" id="c-rev-axis"></div>
+      </div>
+      <div class="panel">
+        <h2>New members per day, last 30 days</h2>
+        <div class="chart" id="c-sign" role="img" aria-label="New members per day for the last 30 days"></div>
+        <div class="axis" id="c-sign-axis"></div>
+      </div>
+      <div class="panel">
+        <h2>Sales by product</h2>
+        <div class="tablewrap"><table><thead><tr><th>Product</th><th class="n">Sold</th><th class="n">Left</th><th>Sell-through</th><th class="n">Revenue</th></tr></thead><tbody id="d-products"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- DROP -->
+    <section class="tab" id="tab-drop">
+      <div class="panel">
+        <h2>Current drop</h2>
+        <div id="drop-now" class="msg"></div>
+      </div>
+      <div class="panel">
+        <h2>Schedule a drop</h2>
+        <p class="help">Members can shop from the first time, everyone else from the second. Products set to “In this drop” follow these times. The countdown on the site updates on its own.</p>
+        <form id="drop-form">
+          <div class="row">
+            <label>Drop name<input id="drop-name" placeholder="e.g. Still Alive" required></label>
+            <label>Members shop from (New York time)<input id="drop-early" type="datetime-local" required></label>
+            <label>Public drop (New York time)<input id="drop-public" type="datetime-local" required></label>
+          </div>
+          <div class="row"><button class="btn solid" type="submit">Save drop</button><button class="btn danger" type="button" id="drop-cancel">Cancel current drop</button><span class="msg" id="drop-msg"></span></div>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Send early-access links</h2>
+        <p class="help">Every member with an email gets their own private link. Put <b>{link}</b> where it goes. Only people who joined before members’ shopping opens get in. Texts: export the CSV in Members, it has each person’s link.</p>
+        <form id="ea-form">
+          <input id="ea-subject" placeholder="Subject, e.g. You’re in. Shop Still Alive before everyone else." required>
+          <textarea id="ea-body" required>You’re on the list, so you shop first.
+
+Members early access opens [day, time]. Here’s your private link:
+{link}
+
+It’s yours only. Public drop is [day, time].</textarea>
+          <div class="row"><input id="ea-test" type="email" placeholder="Test address (must be on the list)" style="flex:1;min-width:220px"><button class="btn" type="button" id="ea-test-btn">Send test</button><button class="btn solid" type="submit">Send to all members</button></div>
+          <span class="msg" id="ea-msg"></span>
+        </form>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="tab" id="tab-products">
+      <div class="panel hidden" id="prod-editor">
+        <h2><span id="pe-title">Add a product</span> <button class="btn sm" type="button" id="pe-close">Close</button></h2>
+        <form id="pe-form">
+          <div class="row">
+            <label>Name<input id="pe-name" required maxlength="80" placeholder="e.g. Still Alive Hoodie"></label>
+            <label style="max-width:150px">Price ($)<input id="pe-price" type="number" min="1" max="10000" step="0.01" required placeholder="60"></label>
+            <label>Color<input id="pe-color" maxlength="40" placeholder="e.g. Black"></label>
+            <label style="max-width:190px">Category<select id="pe-cat"><option value="shorts">Shorts</option><option value="tees">Tees</option><option value="hoodies">Hoodies</option><option value="hats">Caps</option><option value="other">Other</option></select></label>
+          </div>
+          <div style="display:grid;gap:8px">
+            <span style="font-size:13px;color:var(--dim)">Photos. The first is the main photo; the second shows when shoppers hover in the shop. Square photos on a plain black background look best.</span>
+            <div class="pe-photos" id="pe-photos"></div>
+            <div class="row"><label class="btn sm" style="display:inline-flex;flex:none;min-width:0;color:var(--ink)">Add photos<input type="file" id="pe-file" accept="image/*" multiple hidden></label><span class="msg" id="pe-upmsg"></span></div>
+          </div>
+          <div class="row">
+            <label>Sizes, separated by commas<input id="pe-sizes" required placeholder="S, M, L, XL, XXL"></label>
+            <label style="max-width:200px">Size guide<select id="pe-chart"><option value="none">None</option><option value="tee">Tees (sample measurements)</option><option value="hat">Caps</option></select></label>
+          </div>
+          <div class="row" style="gap:6px"><span class="px">Quick sizes</span><button type="button" class="btn sm" data-sizes="S, M, L, XL, XXL" data-chart="none">S to XXL</button><button type="button" class="btn sm" data-sizes="One size" data-chart="none">One size</button></div>
+          <label>Description<textarea id="pe-desc" maxlength="2000" placeholder="What it is, the print, the fit, the story behind it."></textarea></label>
+          <label>Details, one per line<textarea id="pe-details" style="min-height:90px" placeholder="Heavyweight cotton, boxy fit&#10;Screen print front and back&#10;Designed in New York"></textarea></label>
+          <label style="display:flex;align-items:center;gap:8px;flex-direction:row"><input type="checkbox" id="pe-hidden"> Hide from the site</label>
+          <div class="row"><button class="btn solid" type="submit">Save product</button><button class="btn danger hidden" type="button" id="pe-delete">Delete product</button><span class="msg" id="pe-msg"></span></div>
+          <p class="help" id="pe-new-note" style="margin:0">New products start hidden, so the photos can be edited before anyone sees them. When it’s ready, uncheck “Hide from the site”, then set the status and stock in the list below.</p>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Products &amp; stock <button class="btn sm solid" type="button" id="pe-add">Add product</button></h2>
+        <p class="help">Status: <b>Sold out</b> shows “Notify me”. <b>In this drop</b> follows the drop times. <b>On sale</b> is always buyable. Stock goes down by itself with every order, and a size at 0 shows as sold out unless pre-order is on.</p>
+        <div id="prod-list"></div>
+      </div>
+    </section>
+
+    <!-- DISCOUNT CODES -->
+    <section class="tab" id="tab-codes">
+      <div class="panel">
+        <h2>Create a code</h2>
+        <p class="help">Codes are typed in at checkout. Good uses: a members-only code, a code for a creator to share, or a thank-you code for past buyers.</p>
+        <form id="code-form">
+          <div class="row">
+            <label>Code<input id="code-code" placeholder="DAYONES15" required></label>
+            <label>Percent off<input id="code-pct" type="number" min="1" max="100" placeholder="15"></label>
+            <label>or dollars off<input id="code-amt" type="number" min="1" placeholder="10"></label>
+          </div>
+          <div class="row">
+            <label>Max uses (optional)<input id="code-max" type="number" min="1" placeholder="100"></label>
+            <label>Expires (optional)<input id="code-exp" type="datetime-local"></label>
+            <label style="display:flex;align-items:center;gap:8px;flex-direction:row"><input id="code-first" type="checkbox"> First order only</label>
+          </div>
+          <div class="row"><button class="btn solid" type="submit">Create code</button><span class="msg" id="code-msg"></span></div>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Active codes</h2>
+        <div class="tablewrap"><table><thead><tr><th>Code</th><th>Discount</th><th class="n">Used</th><th>Limit</th><th>Expires</th><th></th></tr></thead><tbody id="code-list"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- MEMBERS -->
+    <section class="tab" id="tab-members">
+      <div class="banner hidden" id="demo-banner-m"><span>Example data. Your real members appear here once people sign up on the site.</span><button class="btn sm" data-demo-off>Show real numbers</button></div>
+      <div class="grid4">
+        <div class="stat"><span class="px">People</span><b id="s-people">–</b></div>
+        <div class="stat"><span class="px">Emails</span><b id="s-emails">–</b></div>
+        <div class="stat"><span class="px">Phone numbers</span><b id="s-phones">–</b></div>
+        <div class="stat"><span class="px">Connections</span><div id="s-conn" style="display:grid;gap:4px;margin-top:8px"></div></div>
+      </div>
+      <div class="panel">
+        <h2>Waiting, by product and size <span class="row"><button class="btn sm" data-demo-on>Preview with example data</button><button class="btn sm" id="refresh">Refresh</button><button class="btn sm" id="export">Export CSV with member links</button></span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Product</th><th>Size</th><th>Type</th><th class="n">Count</th></tr></thead><tbody id="summary"></tbody></table></div>
+      </div>
+      <div class="panel">
+        <h2>Email a restock or drop</h2>
+        <form id="send-form">
+          <div class="row"><select id="send-product" style="flex:1;min-width:220px"></select><input id="send-test" type="email" placeholder="Send a test to this address first (optional)" style="flex:2;min-width:240px"></div>
+          <input id="send-subject" placeholder="Subject, e.g. Crown of Thorns is back. Sizes M–XL." required>
+          <textarea id="send-body" placeholder="Short and direct: what’s back, when, the link. “Always Be Humble To Stay Blessed.” and an unsubscribe link are added automatically." required></textarea>
+          <div class="row"><button class="btn" type="button" id="send-test-btn">Send test</button><button class="btn solid" type="submit" id="send-btn">Send to everyone waiting</button><span class="msg" id="send-msg"></span></div>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Recent sends</h2>
+        <div class="tablewrap"><table><thead><tr><th>When</th><th>To</th><th>Subject</th><th class="n">Recipients</th></tr></thead><tbody id="sends"></tbody></table></div>
+      </div>
+      <div class="panel">
+        <h2>Everyone <select id="filter" style="width:auto;padding:6px 10px;font-size:13px"><option value="">All products</option></select></h2>
+        <div class="tablewrap"><table><thead><tr><th>Contact</th><th>Product</th><th>Size</th><th>Joined</th><th>Status</th><th></th></tr></thead><tbody id="list"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+let KEY = sessionStorage.getItem('hb-admin-key') || '';
+let DEMO = false, LAST_DASH = null, CATALOG = [];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const usd = n => '$' + Math.round(n).toLocaleString('en-US');
+let NAMES = {};
+const nice = p => ({ 'next-drop': 'Next drop (general)', all: 'Everyone', 'early-access': 'Members early access' }[p] || NAMES[p] || p.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+const NY = 'America/New_York';
+const fmt = iso => iso ? new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: NY }) + ' ET' : '';
+// datetime-local in the store time zone → ISO UTC
+function nyToIso(v) {
+  if (!v) return '';
+  const guess = new Date(v + 'Z');
+  const ny = new Date(guess.toLocaleString('en-US', { timeZone: NY })), utc = new Date(guess.toLocaleString('en-US', { timeZone: 'UTC' }));
+  return new Date(guess.getTime() + (utc - ny)).toISOString();
+}
+function isoToNy(iso) {
+  const d = new Date(iso); const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: NY, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(d).map(x => [x.type, x.value]));
+  return `${p.year}-${p.month}-${p.day}T${p.hour === '24' ? '00' : p.hour}:${p.minute}`;
+}
+
+async function api(path, opts = {}) {
+  const r = await fetch('/api/admin' + path, { ...opts, headers: { Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+  if (r.status === 401) { lock(); throw new Error('Wrong key'); }
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+  return data;
+}
+const say = (el, text, kind = '') => { el.className = 'msg' + (kind ? ' ' + kind : ''); el.textContent = text; };
+function lock() { KEY = ''; sessionStorage.removeItem('hb-admin-key'); $('#app').style.display = 'none'; $('#login').style.display = ''; $('#logout').classList.add('hidden'); $('#who').textContent = ''; }
+async function unlock() {
+  const s = await api('/summary');
+  $('#login').style.display = 'none'; $('#app').style.display = 'block'; $('#logout').classList.remove('hidden'); $('#who').textContent = 'Unlocked';
+  renderMembers(s); loadDash(); loadDrop(); loadProducts(); loadList();
+}
+
+/* tabs */
+$$('nav.tabs button').forEach(b => b.addEventListener('click', () => {
+  $$('nav.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab));
+  if (b.dataset.tab === 'codes') loadCodes();
+}));
+
+/* dashboard */
+function bars(el, axis, rows, key, fmtVal) {
+  const max = Math.max(1, ...rows.map(r => r[key]));
+  const peak = rows.reduce((a, r, i) => r[key] > rows[a][key] ? i : a, 0);
+  el.innerHTML = rows.map((r, i) => `<div class="b${i === peak && r[key] > 0 ? ' peak' : ''}" data-tip="${new Date(r.d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${fmtVal(r[key])}"><i style="height:${(r[key] / max) * 100}%"></i></div>`).join('');
+  const d = s => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  axis.innerHTML = `<span>${d(rows[0].d)}</span><span>Peak ${fmtVal(rows[peak][key])}</span><span>${d(rows[rows.length - 1].d)}</span>`;
+}
+const tip = $('#tip');
+document.addEventListener('pointermove', e => { const b = e.target.closest('[data-tip]'); if (!b) { tip.style.opacity = 0; return; } tip.textContent = b.dataset.tip; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.style.opacity = 1; });
+async function loadDash() {
+  const d = await api('/dashboard' + (DEMO ? '?demo=1' : '')); LAST_DASH = d;
+  $('#demo-banner').classList.toggle('hidden', !d.demo); $('#demo-on').classList.toggle('hidden', d.demo);
+  const t = d.totals;
+  $('#d-rev').textContent = usd(t.revenue30); $('#d-rev-all').textContent = `${usd(t.revenue)} all time`;
+  $('#d-orders').textContent = t.orders30; $('#d-aov').textContent = t.orders ? `${usd(t.aov)} average order` : 'No orders yet';
+  $('#d-members').textContent = t.members.toLocaleString('en-US');
+  $('#d-signups').textContent = `${d.daily.reduce((s, x) => s + x.signups, 0)} joined in 30 days`;
+  $('#d-share').textContent = t.orders ? Math.round(t.member_share * 100) + '%' : '–';
+  bars($('#c-rev'), $('#c-rev-axis'), d.daily, 'revenue', usd);
+  bars($('#c-sign'), $('#c-sign-axis'), d.daily, 'signups', n => n + ' new');
+  $('#d-products').innerHTML = d.products.length ? d.products.map(p => { const st = p.sold + p.left ? p.sold / (p.sold + p.left) : 0; return `<tr><td>${esc(p.name)}<br><span class="px">${Object.entries(p.sizes).map(([s, v]) => `${esc(s)} ${v.sold}`).join(' · ')}</span></td><td class="n">${p.sold}</td><td class="n">${p.left}</td><td><div class="row" style="gap:8px;flex-wrap:nowrap"><div class="bar-inline" style="flex:1"><i style="width:${Math.round(st * 100)}%"></i></div><span>${Math.round(st * 100)}%</span></div></td><td class="n">${usd(p.cents / 100)}</td></tr>`; }).join('') : '<tr><td colspan="5" style="color:var(--dim)">No sales yet. Each order shows here by product and size.</td></tr>';
+}
+async function setDemo(on) { DEMO = on; await loadDash(); await refreshMembers(); }
+$$('[data-demo-on]').forEach(b => b.addEventListener('click', () => setDemo(true)));
+$$('[data-demo-off]').forEach(b => b.addEventListener('click', () => setDemo(false)));
+$('#dash-refresh').addEventListener('click', loadDash);
+
+/* drop */
+let CURRENT_DROP = null;
+async function loadDrop() {
+  const { drop } = await api('/catalog'); CURRENT_DROP = drop;
+  const label = { upcoming: ['Scheduled', 'warn'], early: ['Members shopping now', 'ok'], public: ['Public, live', 'ok'] };
+  $('#drop-now').innerHTML = drop ? `<b style="color:var(--ink);font-size:18px">${esc(drop.name)}</b> <span class="tag ${label[drop.phase][1]}">${label[drop.phase][0]}</span><br>Members from ${fmt(drop.early_at)} · Public from ${fmt(drop.public_at)}` : 'No drop scheduled. The site shows “Date TBA” and everything follows each product’s own status.';
+  if (drop) { $('#drop-name').value = drop.name; $('#drop-early').value = isoToNy(drop.early_at); $('#drop-public').value = isoToNy(drop.public_at); }
+}
+$('#drop-form').addEventListener('submit', async e => { e.preventDefault(); const m = $('#drop-msg');
+  try { await api('/drop', { method: 'POST', body: JSON.stringify({ name: $('#drop-name').value, early_at: nyToIso($('#drop-early').value), public_at: nyToIso($('#drop-public').value) }) }); say(m, 'Saved. The site countdown is updated.', 'ok'); loadDrop(); } catch (err) { say(m, err.message, 'err'); } });
+$('#drop-cancel').addEventListener('click', async () => { if (!confirm('Cancel the current drop? Products set to “In this drop” will show as dropping soon with no date.')) return; await api('/drop', { method: 'DELETE' }); say($('#drop-msg'), 'Drop cancelled.', 'ok'); loadDrop(); });
+async function sendEA(test) { const m = $('#ea-msg'); say(m, 'Sending…');
+  try { const body = { subject: $('#ea-subject').value, message: $('#ea-body').value }; if (test) { body.test = $('#ea-test').value.trim(); if (!body.test) throw new Error('Enter a test address first.'); }
+    const r = await api('/early-access', { method: 'POST', body: JSON.stringify(body) }); say(m, test ? 'Test sent.' : `Sent ${r.sent} personal links.`, 'ok'); } catch (err) { say(m, err.message, 'err'); } }
+$('#ea-test-btn').addEventListener('click', () => sendEA(true));
+$('#ea-form').addEventListener('submit', e => { e.preventDefault(); if (confirm('Send a personal early-access link to every member?')) sendEA(false); });
+
+/* products */
+async function loadProducts() {
+  const { products } = await api('/catalog');
+  NAMES = Object.fromEntries(products.map(p => [p.id, p.name])); CATALOG = products;
+  $('#prod-list').innerHTML = products.map(p => `
+    <div class="prod" data-id="${esc(p.id)}">
+      <img src="${esc(imgSrc(p.image))}" alt="">
+      <div style="min-width:0"><b>${esc(p.name)}</b> <span class="px">${esc(p.color)} · $${p.price}</span> ${p.hidden ? '<span class="tag warn">Hidden</span>' : ''}
+        <div class="stock">${p.sizes.map(s => `<label>${esc(s)}<input type="number" min="0" data-size="${esc(s)}" value="${p.stock?.[s] ?? 0}"></label>`).join('')}</div>
+        <div class="tools"><button class="btn sm" data-edit>Edit details</button><button class="btn sm" data-move="-1" aria-label="Move up in the shop">↑</button><button class="btn sm" data-move="1" aria-label="Move down in the shop">↓</button></div>
+      </div>
+      <div class="ctrl">
+        <select data-k="status"><option value="archive"${p.status === 'archive' ? ' selected' : ''}>Sold out</option><option value="drop"${p.status === 'drop' ? ' selected' : ''}>In this drop</option><option value="live"${p.status === 'live' ? ' selected' : ''}>On sale</option></select>
+        <label style="display:flex;align-items:center;gap:6px;flex-direction:row;font-size:12px"><input type="checkbox" data-k="preorder"${p.preorder ? ' checked' : ''}> Pre-order</label>
+        <input data-k="ship_note" placeholder="Ships the week of…" value="${esc(p.ship_note || '')}" style="width:200px;padding:7px 10px;font-size:13px">
+        <div class="row"><button class="btn sm solid" data-save>Save</button><span class="msg" data-msg></span></div>
+      </div>
+    </div>`).join('');
+}
+$('#prod-list').addEventListener('click', async e => {
+  const ed = e.target.closest('[data-edit]');
+  if (ed) { openEditor(CATALOG.find(p => p.id === ed.closest('.prod').dataset.id)); return; }
+  const mv = e.target.closest('[data-move]');
+  if (mv) {
+    const ids = CATALOG.map(p => p.id), i = ids.indexOf(mv.closest('.prod').dataset.id), j = i + +mv.dataset.move;
+    if (i < 0 || j < 0 || j >= ids.length) return;
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+    await api('/product-order', { method: 'POST', body: JSON.stringify({ ids }) }); await loadProducts(); return;
+  }
+  const b = e.target.closest('[data-save]'); if (!b) return; const row = b.closest('.prod'); const m = row.querySelector('[data-msg]');
+  const stock = {}; row.querySelectorAll('[data-size]').forEach(i => stock[i.dataset.size] = +i.value || 0);
+  try { await api('/product', { method: 'POST', body: JSON.stringify({ id: row.dataset.id, status: row.querySelector('[data-k=status]').value, preorder: row.querySelector('[data-k=preorder]').checked, ship_note: row.querySelector('[data-k=ship_note]').value, stock }) }); say(m, 'Saved', 'ok'); }
+  catch (err) { say(m, err.message, 'err'); }
+});
+
+/* product editor: add a product, or edit name, price, photos, sizes, description */
+const imgSrc = f => /^(\/|https?:)/.test(f || '') ? f : 'assets/products/' + f;
+let EDIT = null, PHOTOS = [];
+function openEditor(p) {
+  EDIT = p || null; PHOTOS = p ? [...(p.images || [])] : [];
+  $('#pe-title').textContent = p ? `Edit ${p.name}` : 'Add a product';
+  $('#pe-name').value = p?.name || ''; $('#pe-price').value = p?.price ?? ''; $('#pe-color').value = p?.color || '';
+  $('#pe-cat').value = p?.category || 'shorts'; $('#pe-sizes').value = (p?.sizes || []).join(', '); $('#pe-chart').value = p?.sizeChart || 'none';
+  $('#pe-desc').value = p?.description || ''; $('#pe-details').value = (p?.details || []).join('\n'); $('#pe-hidden').checked = p ? !!p.hidden : true;   // new products start hidden so the photos can be edited first
+  $('#pe-delete').classList.toggle('hidden', !p); $('#pe-new-note').classList.toggle('hidden', !!p);
+  say($('#pe-msg'), ''); say($('#pe-upmsg'), '');
+  drawPhotos(); $('#prod-editor').classList.remove('hidden');
+  $('#prod-editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function drawPhotos() {
+  const label = i => i === 0 ? 'Main' : i === 1 ? 'Hover' : 'Photo ' + (i + 1);
+  $('#pe-photos').innerHTML = PHOTOS.length ? PHOTOS.map((f, i) => `<div class="pe-photo"><a href="${esc(imgSrc(f))}" target="_blank" rel="noopener" title="Open full size to download"><img src="${esc(imgSrc(f))}" alt=""></a><span class="px">${label(i)}</span>
+    <div class="row" style="gap:4px"><button type="button" class="btn sm" data-ph="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Move photo left">←</button><button type="button" class="btn sm" data-ph="1" data-i="${i}" ${i === PHOTOS.length - 1 ? 'disabled' : ''} aria-label="Move photo right">→</button><button type="button" class="btn sm danger" data-ph="x" data-i="${i}" aria-label="Remove photo">×</button></div></div>`).join('')
+    : '<p class="help" style="margin:0">No photos yet.</p>';
+}
+$('#pe-photos').addEventListener('click', e => {
+  const b = e.target.closest('[data-ph]'); if (!b) return; const i = +b.dataset.i;
+  if (b.dataset.ph === 'x') PHOTOS.splice(i, 1); else { const j = i + +b.dataset.ph; [PHOTOS[i], PHOTOS[j]] = [PHOTOS[j], PHOTOS[i]]; }
+  drawPhotos();
+});
+// shrink each photo in the browser (longest side 1600px, JPG) so uploads are fast and fit the database
+async function shrink(file) {
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = Object.assign(document.createElement('canvas'), { width: Math.round(bmp.width * k), height: Math.round(bmp.height * k) });
+  const x = c.getContext('2d'); x.fillStyle = '#000000'; x.fillRect(0, 0, c.width, c.height); x.drawImage(bmp, 0, 0, c.width, c.height);
+  let q = 0.86, blob;
+  do { blob = await new Promise(r => c.toBlob(r, 'image/jpeg', q)); q -= 0.12; } while (blob.size > 900000 && q > 0.4);
+  return blob;
+}
+async function uploadPhoto(blob) {
+  const r = await fetch('/api/admin/media', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'Content-Type': 'image/jpeg' }, body: blob });
+  if (r.status === 401) { lock(); throw new Error('Wrong key'); }
+  const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || 'Upload failed'); return d.url;
+}
+$('#pe-file').addEventListener('change', async e => {
+  const files = [...e.target.files]; e.target.value = ''; const m = $('#pe-upmsg');
+  for (let k = 0; k < files.length; k++) {
+    if (PHOTOS.length >= 8) { say(m, 'Up to 8 photos per product.', 'err'); return; }
+    say(m, `Uploading ${k + 1} of ${files.length}…`);
+    try { PHOTOS.push(await uploadPhoto(await shrink(files[k]))); drawPhotos(); }
+    catch (err) { say(m, `${files[k].name}: ${err.message}`, 'err'); return; }
+  }
+  say(m, 'Uploaded. Save the product to keep them.', 'ok');
+});
+$$('[data-sizes]').forEach(b => b.addEventListener('click', () => { $('#pe-sizes').value = b.dataset.sizes; $('#pe-chart').value = b.dataset.chart; }));
+$('#pe-add').addEventListener('click', () => openEditor(null));
+$('#pe-close').addEventListener('click', () => { $('#prod-editor').classList.add('hidden'); EDIT = null; });
+$('#pe-form').addEventListener('submit', async e => {
+  e.preventDefault(); const m = $('#pe-msg');
+  const body = { id: EDIT?.id, name: $('#pe-name').value, price: $('#pe-price').value, color: $('#pe-color').value, category: $('#pe-cat').value,
+    sizes: $('#pe-sizes').value.split(',').map(x => x.trim()).filter(Boolean), sizeChart: $('#pe-chart').value,
+    description: $('#pe-desc').value, details: $('#pe-details').value, images: PHOTOS, hidden: $('#pe-hidden').checked };
+  try {
+    const r = await api('/product-details', { method: 'POST', body: JSON.stringify(body) });
+    await loadProducts();
+    if (r.created) {
+      $('#prod-editor').classList.add('hidden'); EDIT = null;
+      const row = document.querySelector(`.prod[data-id="${r.id}"]`);
+      if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); say(row.querySelector('[data-msg]'), 'Added. Hidden from the site for now.', 'ok'); }
+    } else { EDIT = CATALOG.find(p => p.id === r.id) || EDIT; say(m, 'Saved. The site shows the change now.', 'ok'); }
+  } catch (err) { say(m, err.message, 'err'); }
+});
+$('#pe-delete').addEventListener('click', async () => {
+  if (!EDIT || !confirm(`Delete ${EDIT.name}? It disappears from the site. Past orders stay in the dashboard.`)) return;
+  try { await api('/product?id=' + encodeURIComponent(EDIT.id), { method: 'DELETE' }); $('#prod-editor').classList.add('hidden'); EDIT = null; await loadProducts(); }
+  catch (err) { say($('#pe-msg'), err.message, 'err'); }
+});
+
+/* discount codes */
+async function loadCodes() {
+  const box = $('#code-list');
+  try { const { codes } = await api('/discounts');
+    box.innerHTML = codes.length ? codes.map(c => `<tr><td><b>${esc(c.code)}</b></td><td>${c.percent_off ? c.percent_off + '% off' : usd((c.amount_off || 0) / 100) + ' off'}</td><td class="n">${c.times_redeemed}</td><td>${c.max_redemptions || 'No limit'}</td><td>${c.expires_at ? new Date(c.expires_at * 1000).toLocaleDateString('en-US') : 'Never'}</td><td style="text-align:right"><button class="btn sm danger" data-off="${esc(c.id)}">Turn off</button></td></tr>`).join('') : '<tr><td colspan="6" style="color:var(--dim)">No active codes.</td></tr>';
+  } catch (err) { box.innerHTML = `<tr><td colspan="6" style="color:var(--dim)">${esc(err.message)}</td></tr>`; }
+}
+$('#code-form').addEventListener('submit', async e => { e.preventDefault(); const m = $('#code-msg');
+  try { await api('/discounts', { method: 'POST', body: JSON.stringify({ code: $('#code-code').value, percent_off: $('#code-pct').value || null, amount_off: $('#code-amt').value || null, max_redemptions: $('#code-max').value || null, expires_at: $('#code-exp').value ? nyToIso($('#code-exp').value) : null, first_order: $('#code-first').checked }) }); say(m, 'Code created.', 'ok'); e.target.reset(); loadCodes(); } catch (err) { say(m, err.message, 'err'); } });
+$('#code-list').addEventListener('click', async e => { const b = e.target.closest('[data-off]'); if (!b || !confirm('Turn this code off?')) return; await api('/discounts?id=' + encodeURIComponent(b.dataset.off), { method: 'DELETE' }); loadCodes(); });
+
+/* members + email */
+function renderMembers(s) {
+  $('#s-people').textContent = s.totals.people || 0; $('#s-emails').textContent = s.totals.emails || 0; $('#s-phones').textContent = s.totals.phones || 0;
+  const c = (on, name) => `<span>${on ? '<span class="tag ok">On</span>' : '<span class="tag">Off</span>'} ${name}</span>`;
+  $('#s-conn').innerHTML = c(s.mail, 'Email') + c(s.stripe, 'Stripe checkout') + c(s.webhook, 'Order sync') + c(s.capi, 'Meta server tracking');
+  $('#summary').innerHTML = s.rows.length ? s.rows.map(r => `<tr><td>${esc(nice(r.product))}</td><td>${esc(r.size)}</td><td><span class="tag">${r.kind}</span></td><td class="n">${r.n}</td></tr>`).join('') : '<tr><td colspan="4" style="color:var(--dim)">Nobody yet. Signups from the site appear here.</td></tr>';
+  const products = [...new Set(s.rows.map(r => r.product))];
+  $('#send-product').innerHTML = `<option value="all">Everyone on the list</option>` + products.map(p => `<option value="${esc(p)}">${esc(nice(p))}</option>`).join('');
+  $('#filter').innerHTML = `<option value="">All products</option>` + products.map(p => `<option value="${esc(p)}">${esc(nice(p))}</option>`).join('');
+  $('#sends').innerHTML = s.sends.length ? s.sends.map(r => `<tr><td>${esc(r.created_at)}</td><td>${esc(nice(r.product))}</td><td>${esc(r.subject)}</td><td class="n">${r.recipients}</td></tr>`).join('') : '<tr><td colspan="4" style="color:var(--dim)">No emails sent yet.</td></tr>';
+  $('#send-btn').disabled = !s.mail; $('#send-test-btn').disabled = !s.mail;
+}
+/* members example data: shown only in preview, nothing here is saved or sent */
+let DEMO_M = null;
+function demoMembers() {
+  let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const people = LAST_DASH?.totals?.members || 600;
+  const ago = (days, h = 18) => { const d = new Date(Date.now() - days * 864e5); d.setUTCHours(h, 0, 0, 0); return d.toISOString().replace('T', ' ').slice(0, 16); };
+  const rows = [{ product: 'next-drop', size: 'any', kind: 'email', n: Math.round(people * 0.42) }, { product: 'next-drop', size: 'any', kind: 'phone', n: Math.round(people * 0.2) }];
+  for (const p of CATALOG.slice(0, 5)) for (const s of p.sizes) { const n = Math.round(rnd() * 9); if (n) rows.push({ product: p.id, size: s, kind: rnd() > 0.3 ? 'email' : 'phone', n }); }
+  const first = CATALOG[0]?.id || 'next-drop';
+  const contacts = ['jay•••@gmail.com', '(917) •••-4821', 'mar•••@icloud.com', 'tee•••@gmail.com', '(347) •••-1150', 'dan•••@yahoo.com', 'liv•••@gmail.com', '(646) •••-7302'];
+  const list = contacts.map((c, i) => { const r = rows[2 + (i * 3) % Math.max(1, rows.length - 2)] || rows[0]; return { contact: c, kind: c.startsWith('(') ? 'phone' : 'email', product: r.product, size: r.size, created_at: ago(i + 1, 14 + i), unsubscribed_at: i === 5 ? ago(1) : null }; });
+  return {
+    summary: { totals: { people, emails: Math.round(people * 0.81), phones: Math.round(people * 0.38) }, mail: true, stripe: true, webhook: true, capi: true, rows,
+      sends: [{ created_at: ago(3), product: first, subject: 'Crown of Thorns is back. Sizes M–XL.', recipients: 64 },
+               { created_at: ago(8), product: 'all', subject: 'Still Alive drops Friday at 7pm.', recipients: Math.round(people * 0.8) },
+               { created_at: ago(9), product: 'early-access', subject: 'You’re in. Shop Still Alive before everyone else.', recipients: Math.round(people * 0.66) }] },
+    list };
+}
+function renderDemoList() {
+  const p = $('#filter').value, rows = DEMO_M.list.filter(r => !p || r.product === p);
+  $('#list').innerHTML = rows.length ? rows.map(r => `<tr><td>${esc(r.contact)} <span class="tag">${r.kind}</span></td><td>${esc(nice(r.product))}</td><td>${esc(r.size)}</td><td>${esc(r.created_at)}</td><td>${r.unsubscribed_at ? '<span class="tag">Unsubscribed</span>' : '<span class="tag ok">Active</span>'}</td><td></td></tr>`).join('') : '<tr><td colspan="6" style="color:var(--dim)">Empty.</td></tr>';
+}
+async function refreshMembers() {
+  $('#demo-banner-m').classList.toggle('hidden', !DEMO);
+  $$('#tab-members [data-demo-on]').forEach(b => b.classList.toggle('hidden', DEMO));
+  if (DEMO) {
+    if (!LAST_DASH?.demo) await loadDash();
+    DEMO_M = demoMembers(); renderMembers(DEMO_M.summary); renderDemoList();
+    ['#send-btn', '#send-test-btn', '#export'].forEach(q => { $(q).disabled = true; });   // preview only: nothing can be sent or exported
+  } else {
+    $('#export').disabled = false; renderMembers(await api('/summary')); await loadList();
+  }
+}
+async function loadList() {
+  const p = $('#filter').value; const { rows } = await api('/subscribers' + (p ? '?product=' + encodeURIComponent(p) : ''));
+  $('#list').innerHTML = rows.length ? rows.map(r => `<tr><td>${esc(r.contact)} <span class="tag">${r.kind}</span></td><td>${esc(nice(r.product))}</td><td>${esc(r.size)}</td><td>${esc(r.created_at.slice(0, 16))}</td><td>${r.unsubscribed_at ? '<span class="tag">Unsubscribed</span>' : '<span class="tag ok">Active</span>'}</td><td style="text-align:right"><button class="btn sm danger" data-del="${r.id}">Remove</button></td></tr>`).join('') : '<tr><td colspan="6" style="color:var(--dim)">Empty.</td></tr>';
+}
+$('#login-form').addEventListener('submit', async e => { e.preventDefault(); KEY = $('#key').value.trim(); try { await unlock(); sessionStorage.setItem('hb-admin-key', KEY); $('#key').value = ''; } catch (err) { say($('#login-msg'), err.message, 'err'); } });
+$('#logout').addEventListener('click', lock);
+$('#refresh').addEventListener('click', refreshMembers);
+$('#filter').addEventListener('change', () => DEMO ? renderDemoList() : loadList());
+$('#export').addEventListener('click', async () => { const r = await fetch('/api/admin/export.csv', { headers: { Authorization: 'Bearer ' + KEY } }); const blob = await r.blob(); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'just-living-members.csv'; a.click(); });
+$('#list').addEventListener('click', async e => { const b = e.target.closest('[data-del]'); if (!b || !confirm('Remove this contact?')) return; await api('/subscribers/' + b.dataset.del, { method: 'DELETE' }); renderMembers(await api('/summary')); await loadList(); });
+async function send(test) { const m = $('#send-msg'); say(m, 'Sending…');
+  try { const body = { product: $('#send-product').value, subject: $('#send-subject').value, message: $('#send-body').value };
+    if (test) { body.test = $('#send-test').value.trim(); if (!body.test) throw new Error('Enter a test address first.'); }
+    const r = await api('/send', { method: 'POST', body: JSON.stringify(body) }); say(m, test ? 'Test sent.' : `Sent to ${r.sent} people.`, 'ok'); if (!test) renderMembers(await api('/summary')); } catch (err) { say(m, err.message, 'err'); } }
+$('#send-test-btn').addEventListener('click', () => send(true));
+$('#send-form').addEventListener('submit', e => { e.preventDefault(); if (confirm('Send this to everyone waiting? This cannot be undone.')) send(false); });
+if (KEY) unlock().catch(lock);
+</script>
+</body>
+</html>

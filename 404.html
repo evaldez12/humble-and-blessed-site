@@ -2,9 +2,13 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found — Humble & Blessed</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="/humble-and-blessed-site/assets/logo-circle.png">
+<script>/* works at any depth and on both hosts: the GitHub Pages copy lives under /humble-and-blessed-site/ */
+var HB = location.pathname.indexOf('/humble-and-blessed-site/') === 0 ? '/humble-and-blessed-site/' : '/';
+document.write('<base href="' + HB + '">');</script>
+<link rel="icon" href="assets/logo-circle.png">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:"Cloister Black";src:url(/humble-and-blessed-site/assets/fonts/CloisterBlack.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Cloister Black";src:url(assets/fonts/CloisterBlack.woff2) format("woff2");font-display:swap}
 html,body{margin:0;height:100%;background:#000;color:#D9D2C5;font-family:"EB Garamond",Georgia,serif}
 main{min-height:100%;display:grid;place-items:center;text-align:center;padding:32px 16px;box-sizing:border-box}
 img{width:min(220px,50vw);height:auto;opacity:.9}
@@ -14,8 +18,8 @@ a.btn{display:inline-block;padding:14px 26px;border:1px solid #E9E6DF;color:#E9E
 a.btn:hover,a.btn:focus-visible{background:#E9E6DF;color:#000;outline:none}
 </style></head>
 <body><main><div>
-  <img src="/humble-and-blessed-site/assets/cherub-marble.webp" alt="">
+  <img src="assets/cherub-marble.webp" alt="">
   <h1>Lost the way</h1>
   <p>This page isn't here. It may have sold out or moved.</p>
-  <a class="btn" href="/humble-and-blessed-site/b/">Back to the shop</a>
+  <a class="btn" href="shop.html">Back to the shop</a>
 </div></main></body></html>
