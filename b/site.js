@@ -34,7 +34,7 @@ document.body.insertAdjacentHTML('beforeend', `
     <div><h4>Brand</h4><a href="lookbook.html">Lookbook</a><a href="about.html">About</a><a href="https://instagram.com/humblenblessed">Instagram</a></div>
     <div><h4>Help</h4><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Size guide</a><a href="mailto:hello@humblenblessed.com">Contact</a></div>
   </div>
-  <div class="base"><span>Humble &amp; Blessed, New York</span><span>Founder <a href="https://instagram.com/exclusive.roger">@exclusive.roger</a></span></div>
+  <div class="base"><span>Humble &amp; Blessed, New York</span><span>Est. 2020</span></div>
 </div></footer>`);
 
 const $ = s => document.querySelector(s);
