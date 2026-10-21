@@ -4,7 +4,9 @@ const { PRODUCTS, SIZES, LOOKS, money, byId } = window.HB_DATA;
 
 const page = document.body.dataset.page || '';
 const KEY = 'hb-cart-b';
-const cart = { items: JSON.parse(localStorage.getItem(KEY) || '[]') };
+let saved = []; try { saved = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) {}
+/* drop anything that is no longer for sale (unknown or coming soon) */
+const cart = { items: saved.filter(i => byId(i.id) && !byId(i.id).soon) };
 const save = () => localStorage.setItem(KEY, JSON.stringify(cart.items));
 const count = () => cart.items.reduce((n, i) => n + i.qty, 0);
 
@@ -58,6 +60,7 @@ function render(){
 }
 function sync(){ document.querySelectorAll('.cart-n').forEach(n => n.textContent = count()); }
 function addToCart(id, size){
+  if (!byId(id) || byId(id).soon) return;
   const f = cart.items.find(i => i.id === id && i.size === size);
   if (f) f.qty++; else cart.items.push({ id, size, qty: 1 });
   save(); sync(); bump(); openCart();
@@ -67,7 +70,7 @@ function cards(el, list = PRODUCTS){
   el.innerHTML = list.map(p => `
     <a class="card" href="product.html?id=${p.id}">
       <div class="ph"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
-      <div class="meta"><span>${p.name}</span><span class="c">${money(p.price)}</span></div>
+      <div class="meta"><span>${p.name}</span><span class="c${p.soon ? ' soon' : ''}">${p.soon ? 'Coming soon' : money(p.price)}</span></div>
     </a>`).join('');
 }
 

@@ -127,6 +127,9 @@ main{position:relative;z-index:1}
 .card:hover .ph img{transform:rotateY(-10deg) rotateX(5deg) translateZ(20px)}
 .card .meta{display:flex;justify-content:space-between;padding:12px 0 0;font-size:17px}
 .card .meta .c{color:var(--gold)}
+.card .meta .c.soon,.pdp .price.soon{color:var(--dim);font-style:italic}
+.pdp .soon-note{font-size:18px;margin:8px 0 4px;color:#B9B1A3}
+.pdp .soon-note a{color:var(--gold);border-bottom:1px solid var(--gline)}
 .filters{display:flex;gap:22px;margin-bottom:32px;font-size:17px;flex-wrap:wrap}
 .filters button{padding:6px 0;border-bottom:1px solid transparent;color:var(--dim)}
 .filters button.on{border-bottom-color:var(--gold);color:var(--bone)}
