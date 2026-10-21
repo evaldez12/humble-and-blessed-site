@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="../assets/logo-circle.png">
-<link rel="stylesheet" href="style.css?v=20261021c">
+<link rel="stylesheet" href="style.css?v=20261021d">
 </head>
 <body data-page="shop">
 
@@ -34,8 +34,8 @@
   <div class="grid" id="more"></div>
 </div></section>
 
-<script src="../shared/products.js?v=20261021c"></script>
-<script src="site.js?v=20261021c"></script>
+<script src="../shared/products.js?v=20261021d"></script>
+<script src="site.js?v=20261021d"></script>
 <script>
 (() => {
 const { PRODUCTS, SIZES, addToCart, byId, cards, money } = Object.assign({}, window.HB_DATA, window.HB);
@@ -62,7 +62,7 @@ document.getElementById('pdp').innerHTML = `
     <h1>${p.name}</h1>
     <div class="price${p.soon ? ' soon' : ''}">${p.soon ? 'Coming soon' : money(p.price)}</div>
     <p class="blurb">${p.blurb}</p>
-    ${p.soon ? `<p class="soon-note">Not out yet. <a href="index.html#drop2">Join the list</a> and you get first pick when it drops.</p>` : `
+    ${p.soon ? `<p class="soon-note">Not out yet. Drop dates go up first on Instagram, <a href="https://instagram.com/humblenblessed" target="_blank" rel="noopener">@humblenblessed</a>.</p>` : `
     <div class="label">Size</div>
     <div class="sizes">${sizes.map((s,i) => `<button class="${i===0?'on':''}" data-s="${s}">${s}</button>`).join('')}</div>
     <button class="btn wide solid" id="add">Add to cart</button>`}

@@ -33,7 +33,7 @@
 (function(){ var ok=false; try{ var c=document.createElement('canvas'); ok=!!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){}
   var h=document.documentElement; if(ok){ h.classList.add('try3d'); setTimeout(function(){ if(!document.body.classList.contains('has3d')) h.classList.add('no3d'); }, 8000); } })();
 </script>
-<link rel="stylesheet" href="style.css?v=20261021c">
+<link rel="stylesheet" href="style.css?v=20261021d">
 <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body data-page="home" class="loading">
@@ -90,15 +90,15 @@
     </section>
 
     <section class="drop2" id="drop2"><div class="wrap">
-      <div><h2>Drop two</h2><p class="serif" style="font-size:22px;margin-top:14px;max-width:34ch;color:#B9B1A3">Winter weights. Hoodies, crewnecks and a heavier short. Sign up and you get first pick, twenty-four hours before anyone else.</p>
-        <form onsubmit="event.preventDefault();this.outerHTML='<p class=serif style=font-size:22px;margin-top:28px>You are on the list.</p>'"><input type="email" required placeholder="Email address" aria-label="Email address"><button>Get first pick</button></form></div>
+      <div><h2>Drop two</h2><p class="serif" style="font-size:22px;margin-top:14px;max-width:34ch;color:#B9B1A3">Winter weights. Hoodies, crewnecks and a heavier short. Drop dates go up on Instagram first.</p>
+        <a class="ig" href="https://instagram.com/humblenblessed" target="_blank" rel="noopener">Follow @humblenblessed</a></div>
       <div class="count" id="count"></div>
     </div></section>
   </div>
 </main>
 
-<script src="../shared/products.js?v=20261021c"></script>
-<script src="site.js?v=20261021c"></script>
+<script src="../shared/products.js?v=20261021d"></script>
+<script src="site.js?v=20261021d"></script>
 <script>
 (() => {
 const { LOOKS, PRODUCTS, cards, countdown, dust, fog, motto, parallax } = Object.assign({}, window.HB_DATA, window.HB);
@@ -116,7 +116,7 @@ addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
 })();
 </script>
 <script type="module">
-import { mountCherub } from '../shared/cherub3d.js?v=20261021c';
+import { mountCherub } from '../shared/cherub3d.js?v=20261021d';
 const CUPID_ROT = -Math.PI / 2;
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
