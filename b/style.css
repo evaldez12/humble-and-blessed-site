@@ -90,7 +90,7 @@ html.no3d .stage .cherub,html.no3d .stage .pool{visibility:visible;animation:fad
 html.no3d .cherub3d{display:none}
 .cherub img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(calc(var(--mx)*-14px) 34px 26px rgba(0,0,0,.9)) drop-shadow(calc(var(--mx)*-30px) 90px 80px rgba(0,0,0,.75))}
 .cherub .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
-  -webkit-mask:url(../assets/cherub-marble.png) center/contain no-repeat;mask:url(../assets/cherub-marble.png) center/contain no-repeat;
+  -webkit-mask:url(../assets/cherub-marble.webp) center/contain no-repeat;mask:url(../assets/cherub-marble.webp) center/contain no-repeat;
   background:linear-gradient(115deg,transparent 42%,rgba(255,248,232,.38) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;
   animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes sheen{0%,55%{background-position:120% 0}100%{background-position:-20% 0}}
@@ -204,7 +204,7 @@ details ul{margin-top:12px;padding-left:18px;font-family:"Cormorant Garamond",se
 .timeline li{list-style:none;display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line);font-family:"Cormorant Garamond",serif;font-size:20px}
 .timeline li b{font-weight:400;color:var(--gold)}
 .founder{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:center;margin-top:10vh}
-.founder .pic{aspect-ratio:1;border-radius:50%;background:var(--stone) url(../assets/logo-circle.png) center/cover;outline:1px solid var(--gline);outline-offset:8px}
+.founder .pic{aspect-ratio:1;border-radius:50%;background:var(--stone) url(../assets/logo-circle.webp) center/cover;outline:1px solid var(--gline);outline-offset:8px}
 
 /* footer */
 .ftr{border-top:1px solid var(--line);padding:48px 0 32px;font-size:16px;color:#A69E90;background:var(--black);position:relative;z-index:1}

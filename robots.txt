@@ -1,0 +1,6 @@
+# Only read by search engines once the site has its own domain.
+# Hub and comparison pages carry a noindex tag instead of a Disallow line.
+User-agent: *
+Allow: /
+
+Sitemap: https://evaldez12.github.io/humble-and-blessed-site/sitemap.xml

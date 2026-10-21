@@ -4,7 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Humble & Blessed — New York clothing, est. 2020</title>
-<meta name="description" content="Humble & Blessed is a New York clothing label. Mesh shorts, tees and hoodies in small runs. Always Be Humble To Stay Blessed.">
+<meta name="description" content="Humble &amp; Blessed is a New York clothing label. Mesh shorts, tees and hoodies in small runs. Always Be Humble To Stay Blessed.">
+<!--seo-->
+<link rel="canonical" href="https://evaldez12.github.io/humble-and-blessed-site/b/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Humble &amp; Blessed">
+<meta property="og:title" content="Humble &amp; Blessed — New York clothing, est. 2020">
+<meta property="og:description" content="Humble &amp; Blessed is a New York clothing label. Mesh shorts, tees and hoodies in small runs. Always Be Humble To Stay Blessed.">
+<meta property="og:url" content="https://evaldez12.github.io/humble-and-blessed-site/b/">
+<meta property="og:image" content="https://evaldez12.github.io/humble-and-blessed-site/assets/share-card.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A white marble praying cherub in front of the Humble &amp; Blessed wordmark">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://evaldez12.github.io/humble-and-blessed-site/assets/share-card.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="https://evaldez12.github.io/humble-and-blessed-site/assets/logo-circle.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+ {"@type":"ClothingStore","@id":"https://evaldez12.github.io/humble-and-blessed-site/#brand","name":"Humble & Blessed","url":"https://evaldez12.github.io/humble-and-blessed-site/b/","logo":"https://evaldez12.github.io/humble-and-blessed-site/assets/logo-circle.png","image":"https://evaldez12.github.io/humble-and-blessed-site/assets/share-card.jpg",
+  "slogan":"Always Be Humble To Stay Blessed","foundingDate":"2020","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},
+  "sameAs":["https://instagram.com/humblenblessed"]},
+ {"@type":"WebSite","name":"Humble & Blessed","url":"https://evaldez12.github.io/humble-and-blessed-site/b/","publisher":{"@id":"https://evaldez12.github.io/humble-and-blessed-site/#brand"}}]}</script>
+<!--/seo-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="../assets/logo-circle.png">
@@ -13,7 +33,7 @@
 (function(){ var ok=false; try{ var c=document.createElement('canvas'); ok=!!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){}
   var h=document.documentElement; if(ok){ h.classList.add('try3d'); setTimeout(function(){ if(!document.body.classList.contains('has3d')) h.classList.add('no3d'); }, 8000); } })();
 </script>
-<link rel="stylesheet" href="style.css?v=20261018a">
+<link rel="stylesheet" href="style.css?v=20261021a">
 <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body data-page="home" class="loading">
@@ -23,7 +43,7 @@
   <div class="shaft"></div>
   <div class="wm" id="wm"><span>Humble&amp;Blessed</span></div>
   <canvas id="dust"></canvas>
-  <div class="cherub"><img src="../assets/cherub-marble.png" alt=""><div class="sheen"></div></div>
+  <div class="cherub"><img src="../assets/cherub-marble.webp" alt=""><div class="sheen"></div></div>
   <div class="pool"></div>
   <canvas class="cherub3d" id="cherub3d" aria-label="Ivory marble cherub. Drag to turn it."></canvas>
   <div class="vignette"></div>
@@ -60,7 +80,7 @@
     </div></section>
 
     <section class="wrap about">
-      <figure class="about-art" id="art"><canvas class="cupid3d" id="cupid3d" aria-label="Marble cupid drawing a bow. Drag to turn it."></canvas><img src="../assets/cupid-engraving-ink-white.png" alt="Humble & Blessed cupid engraving"></figure>
+      <figure class="about-art" id="art"><canvas class="cupid3d" id="cupid3d" aria-label="Marble cupid drawing a bow. Drag to turn it."></canvas><img src="../assets/cupid-engraving-ink-white.webp" alt="Humble & Blessed cupid engraving"></figure>
       <div>
         <h2>Made in New York by people who pray before they eat.</h2>
         <p>Humble &amp; Blessed started in 2020 in Rob's apartment with one screen and a praying cherub. The cherub is still on everything we make. It is a reminder to stay grateful on the way up.</p>
@@ -77,8 +97,8 @@
   </div>
 </main>
 
-<script src="../shared/products.js?v=20261018a"></script>
-<script src="site.js?v=20261018a"></script>
+<script src="../shared/products.js?v=20261021a"></script>
+<script src="site.js?v=20261021a"></script>
 <script>
 (() => {
 const { LOOKS, PRODUCTS, cards, countdown, dust, fog, motto, parallax } = Object.assign({}, window.HB_DATA, window.HB);
@@ -96,7 +116,7 @@ addEventListener('scroll', inkReveal, { passive: true }); inkReveal();
 })();
 </script>
 <script type="module">
-import { mountCherub } from '../shared/cherub3d.js?v=20261018a';
+import { mountCherub } from '../shared/cherub3d.js?v=20261021a';
 const CUPID_ROT = -Math.PI / 2;
 const canvas = document.getElementById('cherub3d');
 const api = mountCherub(canvas, {
