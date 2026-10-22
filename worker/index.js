@@ -239,6 +239,9 @@ export default {
       const to = pid ? `/product-${encodeURIComponent(pid)}` : old[1] && old[1] !== 'index' ? `/${old[1]}` : '/';
       return Response.redirect(url.origin + to, 301);
     }
+    // search engines: robots.txt and a sitemap built from the live catalog, so new products are listed automatically
+    if (path === '/robots.txt' && request.method === 'GET') return new Response(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\n\nSitemap: ${site}/sitemap.xml\n`, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
+    if (path === '/sitemap.xml' && request.method === 'GET') return sitemap(env, url, site);
     if (!path.startsWith('/api/')) return env.ASSETS.fetch(request);
     try {
       await ensureSchema(env);
@@ -644,4 +647,14 @@ async function productPage(env, url, site, id) {
   const fill = { __P_ID__: p.id, __P_NAME__: p.name, __P_COLOR__: p.color || '', __P_DESC__: p.description || '', __P_IMAGE__: site + imagePath(p.images?.[0] || '') };
   const html = (await tpl.text()).replace(/__P_[A-Z]+__/g, k => esc(fill[k] ?? ''));
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=30' } });
+}
+
+// ---------- sitemap ----------
+// the public pages plus one entry per visible (not hidden) product
+const SITEMAP_PAGES = ['/', '/shop', '/lookbook', '/about', '/info'];
+async function sitemap(env, url, site) {
+  const cat = await catalog(env, url.origin);
+  const locs = [...SITEMAP_PAGES.map(p => site + p), ...cat.map(p => `${site}/product-${p.id}`)];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs.map(l => `  <url><loc>${esc(l)}</loc></url>`).join('\n')}\n</urlset>\n`;
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
 }
